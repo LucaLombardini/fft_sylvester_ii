@@ -1,8 +1,10 @@
 #ifndef __BUTTERFLY__
 #define __BUTTERFLY__
 
-int _butterfly(int* A_r_in, int* A_i_in, int* B_r_in, int* B_i_in, int* w_re, int* w_i, int* A_r_out, int* A_i_out, int* B_r_out, int* B_i_out);
+int _butterfly(unsigned int* A_r_in, unsigned int* A_i_in, unsigned int* B_r_in, unsigned int* B_i_in, unsigned int* w_r, unsigned int* w_i, unsigned int* A_r_out, unsigned int* A_i_out, unsigned int* B_r_out, unsigned int* B_i_out);
 
-int _round_and_scale(long int number);
+signed long int _signer(unsigned long int number);
+
+unsigned int _round_and_scale(signed long int number);
 
 #endif

@@ -7,14 +7,14 @@ PACKAGE definespack IS
 	CONSTANT io_width	: positive	:= 20;
 --#############################################################################
 --#	Coefficient's Register file defines
-	CONSTANT rfc_data_width	: positive	:= io_width;
-	CONSTANT rfc_addr_width : positive	:= 1;
+	CONSTANT rfc_data_width: positive	:= io_width;
+	CONSTANT rfc_addr_width: positive	:= 1;
 	CONSTANT rfc_wr_ports	: positive	:= 1;
 	CONSTANT rfc_rd_ports	: positive	:= 1;
 --#############################################################################
 --#	Data's Register file defines
-	CONSTANT rfd_data_width	: positive	:= io_width;
-	CONSTANT rfd_addr_width : positive	:= 2;
+	CONSTANT rfd_data_width: positive	:= io_width;
+	CONSTANT rfd_addr_width: positive	:= 2;
 	CONSTANT rfd_wr_ports	: positive	:= 1;
 	CONSTANT rfd_rd_ports	: positive	:= 2;
 --#############################################################################
@@ -29,4 +29,17 @@ PACKAGE definespack IS
 	CONSTANT round_i_width	: positive	:= add_width;
 	CONSTANT round_o_width	: positive	:= io_width;
 --#############################################################################
+--#	Control Unit defines
+	CONSTANT cw_width	: positive	:= ;
+--#############################################################################
+--#	Testbenches defines
+	CONSTANT clk_period	: time		:= 10 ns;
+	CONSTANT rst_release	: time		:= 15 ns;
+	CONSTANT maker_width	: positive	:= io_width;
+	CONSTANT filename1	: string	:= "../tb/notorious_sigs.hex"
+	CONSTANT input_file	: string	:= filename1
+	CONSTANT dut_cycle_lat	: positive	:= 14;
+	CONSTANT output_file	: string	:= "results.hex"
+	CONSTANT sink_width	: positive	:= io_width;
+	CONSTANT serial_data	: integer	:= 4;
 END definespack;
