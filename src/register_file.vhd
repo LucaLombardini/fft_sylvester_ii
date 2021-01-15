@@ -9,7 +9,7 @@ ENTITY register_file IS
 		wr_ports	: positive	:= 1;
 		rd_ports	: positive	:= 1);
 	PORT(	CLK		: IN std_logic;
-		WR		: IN std_logic;
+		WR		: IN std_logic_vector(wr_ports-1 DOWNTO 0);
 		WR_ADDR	: IN unsigned(wr_ports*addr_width-1 DOWNTO 0);
 		WR_DATA	: IN signed(wr_ports*data_width-1 DOWNTO 0);
 		RD_ADDR	: IN unsigned(rd_ports*addr_width-1 DOWNTO 0);
@@ -33,11 +33,13 @@ BEGIN
 	write_define:PROCESS(CLK)
 	BEGIN
 		IF CLK'EVENT AND CLK = '1' THEN
-			IF WR = '1' THEN
-				FOR j IN 0 TO wr_ports-1 LOOP
+			--IF WR = '1' THEN
+			FOR j IN 0 TO wr_ports-1 LOOP
+				IF WR(j) = '1' THEN
 					register_block(to_integer(WR_ADDR((i+1)*data_width-1 DOWNTO i*data_width))) <= WR_DATA((i+1)*data_width-1 DOWNTO i*data_width);
-				END LOOP;
-			END IF;
+				END IF;
+			END LOOP;
+			--END IF;
 		END IF;
 	END PROCESS;
 END ARCHITECTURE;

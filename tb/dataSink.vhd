@@ -8,6 +8,7 @@ LIBRARY STD;
 USE STD.textio.all;
 
 ENTITY dataSink IS
+	GENERIC(output_filename : string := "default_output.hex");
 	PORT(	CLK	: IN std_logic;
 		RST_n	: IN std_logic;
 		DATA_RDY: IN std_logic;
@@ -19,7 +20,7 @@ END ENTITY;
 ARCHITECTURE behav OF dataSink IS
 BEGIN
 	write_process: PROCESS(CLK, RST_n)
-		FILE fp : text OPEN write_mode IS output_file;
+		FILE fp : text OPEN write_mode IS output_filename;
 		VARIABLE line_out	: line;
 		VARIABLE data_count	: integer := 0;
 		VARIABLE value		: std_logic_vector(sink_width-1 DOWNTO 0);

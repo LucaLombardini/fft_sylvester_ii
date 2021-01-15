@@ -1,5 +1,6 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
+USE IEEE.numeric_std.all;
 
 PACKAGE definespack IS
 --#############################################################################
@@ -42,4 +43,5 @@ PACKAGE definespack IS
 	CONSTANT output_file	: string	:= "results.hex"
 	CONSTANT sink_width	: positive	:= io_width;
 	CONSTANT serial_data	: integer	:= 4;
+	CONSTANT adder_const	: signed	:= to_signed(1,add_width);
 END definespack;

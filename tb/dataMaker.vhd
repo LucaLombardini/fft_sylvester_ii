@@ -8,6 +8,7 @@ LIBRARY STD;
 USE STD.textio.all;
 
 ENTITY dataMaker IS
+	GENERIC(input_filename : string := "default_input.hex");
 	PORT(	CLK	: IN std_logic;
 		RST_n	: IN std_logic;
 		DATA	: OUT signed(maker_width-1 DOWNTO 0);
@@ -20,7 +21,7 @@ ARCHITECTURE behav OF dataMaker IS
 	SIGNAL isEndFile	: std_logic;
 BEGIN
 	file_reader: PROCESS(CLK)
-		FILE fp : text OPEN read_mode IS input_file;
+		FILE fp : text OPEN read_mode IS input_filename;
 		VARIABLE file_line	: line;
 		VARIABLE value 	: std_logic_vector(maker_width-1 DOWNTO 0);
 	BEGIN
