@@ -1,4 +1,4 @@
 vsim -t ns -novopt work.tb_adder
-wave add *
+add wave *
 run -all
 quit -f

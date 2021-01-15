@@ -20,7 +20,7 @@ END ENTITY;
 ARCHITECTURE behav OF dataMaker IS
 	SIGNAL isEndFile	: std_logic;
 BEGIN
-	file_reader: PROCESS(CLK)
+	file_reader: PROCESS(RST_n, CLK)
 		FILE fp : text OPEN read_mode IS input_filename;
 		VARIABLE file_line	: line;
 		VARIABLE value 	: std_logic_vector(maker_width-1 DOWNTO 0);
@@ -52,7 +52,7 @@ BEGIN
 					END_SIM <= '1';
 				ELSE
 					cnt := cnt + 1;
-					END_SIM <= '1';
+					END_SIM <= '0';
 				END IF;
 			ELSE
 				END_SIM <= '0';

@@ -24,7 +24,7 @@ PACKAGE definespack IS
 	CONSTANT prod_width	: positive	:= m_in_width * 2;
 --#############################################################################
 --#	Adder_subtractor defines
-	CONSTANT add_width	: positive	:= mult_width;
+	CONSTANT add_width	: positive	:= io_width;
 --#############################################################################
 --#	Rounder defines
 	CONSTANT round_i_width	: positive	:= add_width;
