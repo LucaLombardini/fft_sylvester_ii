@@ -24,23 +24,23 @@ PACKAGE definespack IS
 	CONSTANT prod_width	: positive	:= m_in_width * 2;
 --#############################################################################
 --#	Adder_subtractor defines
-	CONSTANT add_width	: positive	:= prod_width;
+	CONSTANT add_width	: positive	:= mult_width;
 --#############################################################################
 --#	Rounder defines
 	CONSTANT round_i_width	: positive	:= add_width;
 	CONSTANT round_o_width	: positive	:= io_width;
 --#############################################################################
 --#	Control Unit defines
-	CONSTANT cw_width	: positive	:= ;
+	CONSTANT cw_width	: positive	:= 10;
 --#############################################################################
 --#	Testbenches defines
 	CONSTANT clk_period	: time		:= 10 ns;
 	CONSTANT rst_release	: time		:= 15 ns;
 	CONSTANT maker_width	: positive	:= io_width;
-	CONSTANT filename1	: string	:= "../tb/notorious_sigs.hex"
-	CONSTANT input_file	: string	:= filename1
+	CONSTANT filename1	: string	:= "../tb/notorious_sigs.hex";
+	CONSTANT input_file	: string	:= filename1;
 	CONSTANT dut_cycle_lat	: positive	:= 14;
-	CONSTANT output_file	: string	:= "results.hex"
+	CONSTANT output_file	: string	:= "results.hex";
 	CONSTANT sink_width	: positive	:= io_width;
 	CONSTANT serial_data	: integer	:= 4;
 	CONSTANT adder_const	: signed	:= to_signed(1,add_width);

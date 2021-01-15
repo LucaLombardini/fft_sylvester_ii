@@ -40,13 +40,23 @@ BEGIN
 		END IF;
 	END PROCESS;
 	
-	simulation_ender: PROCESS
+	simulation_ender: PROCESS(RST_n, CLK)
+		VARIABLE cnt	: integer ;
 	BEGIN
-		IF isEndFile = '1' THEN
-			WAIT FOR (dut_cycle_lat+1)*clk_period;
-			END_SIM <= '1';
-		ELSE
+		IF RST_n = '0' THEN
+			cnt := 0;
 			END_SIM <= '0';
+		ELSIF CLK'EVENT AND CLK = '1' THEN
+			IF isEndFile = '1' THEN
+				IF cnt = dut_cycle_lat THEN
+					END_SIM <= '1';
+				ELSE
+					cnt := cnt + 1;
+					END_SIM <= '1';
+				END IF;
+			ELSE
+				END_SIM <= '0';
+			END IF;
 		END IF;
 	END PROCESS;
 END ARCHITECTURE;

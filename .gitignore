@@ -3,3 +3,6 @@ text_wave_front
 butterflyTest
 sample*.txt
 py_scr/__pycache__
+sim/work
+sim/transcript
+sim/vsim.wlf
