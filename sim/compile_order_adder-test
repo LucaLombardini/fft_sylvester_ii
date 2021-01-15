@@ -1,0 +1,6 @@
+../src/definespack.vhd
+../src/adder.vhd
+../tb/clkGen.vhd
+../tb/dataMaker.vhd
+../tb/dataSink.vhd
+../tb/tb_adder.vhd

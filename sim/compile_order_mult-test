@@ -1,0 +1,6 @@
+../src/definespack.vhd
+../src/multiplier.vhd
+../tb/clkGen.vhd
+../tb/dataMaker.vhd
+../tb/dataSink.vhd
+../tb/tb_multiplier.vhd
