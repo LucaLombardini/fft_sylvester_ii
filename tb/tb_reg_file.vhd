@@ -78,6 +78,6 @@ BEGIN
 
 	clk_gn	: clkGen PORT MAP(end_simulation, clk_distrib, rst_distrib_n);
 	d_mkr	: dataMaker GENERIC MAP(input_filename => "reg_file_in.hex") PORT MAP(clk_distrib, rst_distrib_n, data_in, end_simulation);
-	dut	: register_file GENERIC MAP(addr_width => 4; data_width => 4; wr_ports = 16; rd_ports => 2) PORT MAP(clk_distrib, wr_sig, addr_in, data_in, addr_out, data_out);
+	dut	: register_file GENERIC MAP(addr_width => 2; data_width => 4; wr_ports = 4; rd_ports => 2) PORT MAP(clk_distrib, wr_sig, addr_in, data_in, addr_out, data_out);
 	d_snk	: dataSink GENERIC MAP(output_filename => "reg_file_out.hex") PORT MAP(clk_distrib, rst_distrib_n, '1', data_out);
 END ARCHITECTURE;
