@@ -24,7 +24,7 @@ PACKAGE definespack IS
 	CONSTANT prod_width	: positive	:= m_in_width*2;
 --#############################################################################
 --#	Adder_subtractor defines
-	CONSTANT add_width	: positive	:= dummy_width;
+	CONSTANT add_width	: positive	:= prod_width;
 --#############################################################################
 --#	Rounder defines
 	CONSTANT round_i_width	: positive	:= add_width;
@@ -36,17 +36,18 @@ PACKAGE definespack IS
 --#	Testbenches defines
 	CONSTANT clk_period	: time		:= 10 ns;
 	CONSTANT rst_release	: time		:= 15 ns;
-	CONSTANT maker_width	: positive	:= io_width;
+	
 	CONSTANT filename1	: string	:= "../tb/notorious_sigs.hex";
 	CONSTANT input_file	: string	:= filename1;
-	CONSTANT dut_cycle_lat	: positive	:= 14;
+	CONSTANT dut_cycle_lat	: positive	:= 1;
 	CONSTANT output_file	: string	:= "results.hex";
-	CONSTANT sink_width	: positive	:= io_width;
 	CONSTANT serial_data	: integer	:= 4;
 	CONSTANT adder_const	: signed	:= to_signed(1,add_width);
 	CONSTANT mult_const	: signed	:= to_signed(16,m_in_width);
-	CONSTANT rf_data_test	: positive	:= io_width;
-	CONSTANT rf_addr_test	: positive	:= 1;
-	CONSTANT rf_wr_test	: positive	:= 1;
-	CONSTANT rf_rd_test	: positive	:= 1;
+	CONSTANT rf_data_test	: positive	:= 4;
+	CONSTANT rf_addr_test	: positive	:= 2;
+	CONSTANT rf_wr_test	: positive	:= 4;
+	CONSTANT rf_rd_test	: positive	:= 2;
+	CONSTANT maker_width	: positive	:= rf_data_test*rf_wr_test;
+	CONSTANT sink_width	: positive	:= rf_data_test*rf_rd_test;
 END definespack;

@@ -13,7 +13,7 @@ ENTITY register_file IS
 		WR_ADDR	: IN unsigned(wr_ports*addr_width-1 DOWNTO 0);
 		WR_DATA	: IN signed(wr_ports*data_width-1 DOWNTO 0);
 		RD_ADDR	: IN unsigned(rd_ports*addr_width-1 DOWNTO 0);
-		RD_DATA	: OUT signed(rd_ports*data_width));
+		RD_DATA	: OUT signed(rd_ports*data_width-1 DOWNTO 0));
 END ENTITY;
 
 
@@ -26,7 +26,7 @@ BEGIN
 	read_define: PROCESS(RD_ADDR, register_block)
 	BEGIN
 		FOR i IN 0 TO rd_ports-1 LOOP
-			RD_DATA((i+1)*data_width-1 DOWNTO i*data_width) <= register_block(to_integer(RD_ADDR((i+1)*data_width-1 DOWNTO i*data_width)));
+			RD_DATA((i+1)*data_width-1 DOWNTO i*data_width) <= register_block(to_integer(RD_ADDR((i+1)*addr_width-1 DOWNTO i*addr_width)));
 		END LOOP;
 	END PROCESS;
 
@@ -36,7 +36,7 @@ BEGIN
 			--IF WR = '1' THEN
 			FOR j IN 0 TO wr_ports-1 LOOP
 				IF WR(j) = '1' THEN
-					register_block(to_integer(WR_ADDR((i+1)*data_width-1 DOWNTO i*data_width))) <= WR_DATA((i+1)*data_width-1 DOWNTO i*data_width);
+					register_block(to_integer(WR_ADDR((j+1)*addr_width-1 DOWNTO j*addr_width))) <= WR_DATA((j+1)*data_width-1 DOWNTO j*data_width);
 				END IF;
 			END LOOP;
 			--END IF;

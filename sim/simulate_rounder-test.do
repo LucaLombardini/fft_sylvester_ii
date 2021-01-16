@@ -1,4 +1,4 @@
 vsim -t ns -novopt work.tb_rounder
-wave add *
+add wave *
 run -all
 quit -f
