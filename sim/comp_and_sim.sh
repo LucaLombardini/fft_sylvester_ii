@@ -14,10 +14,10 @@ if [[ "$#" > 1 ]] && [[ -e "$2" ]]; then
 		fi
 		filename=$(basename "$hdl_file") # get filename.extension from the string which contains also the path
 		if [[ "${filename##*.}" == "vhd" ]]; then
-			echo -e "\e[32mCompiling $filename ...\e[0m"
+			echo -e "\e[32m[ INFO ]: compiling $filename ...\e[0m"
 			vcom -93 -work ./work "$hdl_file" || exit -1
 		elif [[ "${filename##*.}" == "v" ]]; then
-			echo -e "\e[32mCompiling $filename ...\e[0m"
+			echo -e "\e[32m[ INFO ]: compiling $filename ...\e[0m"
 			vlog -work ./work "$hdl_file" || exit -1
 		else
 			echo -e "\e[31m[ ERROR ] : source hdl file ( $filename ) not found!\e[0m"

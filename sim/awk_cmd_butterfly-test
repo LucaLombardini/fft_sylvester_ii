@@ -1,0 +1,14 @@
+{if ($2 == "rfc_data_width") { gsub($(NF), "io_width;")}
+if ($2 == "rfc_addr_width") { gsub($(NF), "1;")}
+if ($2 == "rfc_wr_ports") { gsub($(NF), "1;")}
+if ($2 == "rfc_rd_ports") { gsub($(NF), "1;")}
+if ($2 == "rfd_data_width") { gsub($(NF), "io_width;")}
+if ($2 == "rfd_addr_width") { gsub($(NF), "2;")}
+if ($2 == "rfd_wr_ports") { gsub($(NF), "1;")}
+if ($2 == "rfd_rd_ports") { gsub($(NF), "2;")}
+if ($2 == "add_width") { gsub($(NF), "prod_width;")}
+if ($2 == "maker_width") { gsub($(NF), "io_width;")}
+if ($2 == "sink_width") { gsub($(NF), "io_width;")}
+if ($2 == "dut_cycle_lat") { gsub($(NF), "14;")}
+{print}
+}

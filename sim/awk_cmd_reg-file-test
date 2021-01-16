@@ -1,0 +1,10 @@
+{if ($2 == "rf_data_test") { gsub($(NF), "4;")}
+if ($2 == "rf_addr_test") { gsub($(NF), "2;")}
+if ($2 == "rf_wr_test") { gsub($(NF), "4;")}
+if ($2 == "rf_rd_test") { gsub($(NF), "2;")}
+if ($2 == "m_in_width") { gsub($(NF), "io_width;")}
+if ($2 == "maker_width") { gsub($(NF), "rf_data_test*rf_wr_test;")}
+if ($2 == "sink_width") { gsub($(NF), "rf_data_test*rf_rd_test;")}
+if ($2 == "dut_cycle_lat") { gsub($(NF), "1;")}
+{print}
+}
