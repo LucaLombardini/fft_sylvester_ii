@@ -1,0 +1,23 @@
+sig/stato,sig/stato,command word
+S_IDLE,D_IDLE,CW_0
+S_LD_AR,-,CW_1
+S_LD_AI,D_LD_AI,CW_2
+S_LD_BR,D_LD_BR,CW_3
+S_M1,D_M1,CW_4
+S_M3,D_M3,CW_5
+S_M2,D_M2,CW_6
+S_M4,D_M4,CW_7
+S_M5,-,CW_8
+S_M6,-,CW_9
+S_S5,-,CW_10
+S_S6,-,CW_11
+S_RND_BR,-,CW_12
+S_RND_BI,-,CW_13
+S_SND_BI,-,CW_14
+C_M5,-,CW_15
+C_M6,-,CW_16
+C_S5,-,CW_17
+C_S6,-,CW_18
+C_RND_BR,-,CW_19
+C_RND_BI,-,CW_20
+C_SND_BI,-,CW_21

@@ -6,3 +6,5 @@ py_scr/__pycache__
 sim/work
 sim/transcript
 sim/vsim.wlf
+.cu_map_even.ods
+.cu_map_odd.ods

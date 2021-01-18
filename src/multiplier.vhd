@@ -7,7 +7,7 @@ ENTITY multiplier IS
 	PORT(	CLK	: IN std_logic;
 		A	: IN signed(m_in_width-1 DOWNTO 0);
 		B	: IN signed(m_in_width-1 DOWNTO 0);
-		M_D_n	: IN std_logic;
+		D_M_n	: IN std_logic;
 		PROD	: OUT signed(prod_width-1 DOWNTO 0));
 END ENTITY;
 
@@ -18,7 +18,7 @@ BEGIN
 		VARIABLE tmp	: std_logic_vector(prod_width-1 DOWNTO 0);
 	BEGIN
 		IF CLK'EVENT AND CLK = '1' THEN
-			IF M_D_n = '1' THEN
+			IF D_M_n = '0' THEN
 				PROD <= A * B;
 			ELSE
 				tmp(m_in_width DOWNTO 0) := std_logic_vector(A) & '0';
