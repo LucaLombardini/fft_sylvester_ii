@@ -55,7 +55,7 @@ BEGIN
 
 	cu_dut: cu_butterfly PORT MAP(clk_dist, rst_n_dist, start, cw_to_print);
 
-	clk_gen: clkGen PORT MAP('1', clk_dist, rst_n_dist);
+	clk_gen: clkGen PORT MAP('0', clk_dist, rst_n_dist);
 
 	write_process: PROCESS(clk_dist, rst_n_dist)
 		FILE fp : text OPEN write_mode IS "ctrl_wrd_out.bin";

@@ -91,7 +91,7 @@ BEGIN
 --#	Mux used to select the next address, driven by the late status
 	mux_next_addr:  mux2to1 GENERIC MAP(cc_lsb_addr) 
 				PORT MAP(signed(even_out(uir_width-1 DOWNTO command_len)),
-					signed(odd_out(uir_width-1 DOWNTO 0)),
+					signed(odd_out(uir_width-1 DOWNTO command_len)),
 					late_sel_bit,
 					u_next_reg_in);
 --############################################################################
