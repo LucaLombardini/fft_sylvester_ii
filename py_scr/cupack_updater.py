@@ -11,7 +11,7 @@ USE work.definespack.all;
 PACKAGE cupack IS
 """
 
-BASE='\tCONSTANT {}\t: std_logic_vector({}-1 DOWNTO 0)\t:= "{}";\n'
+BASE='\tCONSTANT {}\t: std_logic_vector({}-1 DOWNTO 0) := "{}";\n'
 
 BASE_K = '\tCONSTANT {}\t: positive\t:= "{}";\n'
 
@@ -21,12 +21,17 @@ FILENAME = "cu_tracker"
 
 FILEOUT = "../src/cupack.vhd"
 
-bit_len_map = {4:"base_addr", 5:"lsb_addr", 6:"cc_lsb_addr", 23:"command_len"}
+COMMAND_LEN = 23
+NEXT_ADDR_CC= 6
+BASE_ADDR_LEN=4
+
+bit_len_map = {BASE_ADDR_LEN:"base_addr", 5:"lsb_addr", NEXT_ADDR_CC:"cc_lsb_addr", COMMAND_LEN:"command_len"}
 
 with open(FILEOUT, 'w') as f_out, open(FILENAME,'r') as tracker:	# file which will contain the defines and the one containing the filenames of the file containing the mappings
 	f_out.write(HEADER)
 	for key, value in bit_len_map.items():	# add integer constants
 				f_out.write(BASE_K.format(value, key))
+	f_out.write(BASE_K.format("uir_width", COMMAND_LEN + NEXT_ADDR_CC))
 	for input_filename in tracker:				# for every file in the tracker read the map composed of tag and bits, and assign them into the package
 		with open(input_filename.rstrip('\n'), 'r') as filein:
 			csvbuf = csv.reader(filein)

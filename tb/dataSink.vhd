@@ -25,7 +25,9 @@ BEGIN
 		VARIABLE data_count	: integer := 0;
 		VARIABLE value		: std_logic_vector(sink_width-1 DOWNTO 0);
 	BEGIN
-		IF CLK'EVENT AND CLK = '1' THEN
+		IF RST_n = '0' THEN
+			NULL;
+		ELSIF CLK'EVENT AND CLK = '1' THEN
 			IF DATA_RDY = '1' OR data_count < (serial_data+1) THEN
 				data_count := data_count + 1;
 				value := std_logic_vector(DATA);

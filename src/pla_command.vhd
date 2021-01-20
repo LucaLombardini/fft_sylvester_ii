@@ -5,8 +5,8 @@ USE work.definespack.all;
 USE work.cupack.all;
 
 ENTITY pla_command IS
-	PORT(	STATE	: std_logic_vector(cc_lsb_addr-1 DOWNTO 0);
-		CW	: std_logic_vector(command_len-1 DOWNTO 0));
+	PORT(	STATE	: IN std_logic_vector(cc_lsb_addr-1 DOWNTO 0);
+		CW	: OUT std_logic_vector(command_len-1 DOWNTO 0));
 END ENTITY;
 
 

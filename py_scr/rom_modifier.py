@@ -25,7 +25,7 @@ with open(TRACKER_FILE, 'r') as tracker:
 						ignore = True	# now on, all the previous cases are obsolete
 						for line_no, score in enumerate(csv_buf):	# score is a list, with a header useful for humans
 							if line_no:
-								tmp_dest.write(ROM_LINE.format(' | '.join([ _ for _ in score[:-1] if _ != '-']), score[-1] )) # to support WHEN CASE1 | CASE2 | .... | CASEN => DATA <= CWXXXX
+								tmp_dest.write( ROM_LINE.format( score[0], ' & '.join([ _ for _ in score[1:] if _ != '-']) )) # to support WHEN CASE_x => DATA <= cc & NEXT_ADDR & parity & ctrlwrd
 				else:
 					tmp_dest.write(code_line)
 		os.rename("tmp",IN_FILENAME)		# finally point to the original source file

@@ -18,7 +18,7 @@ BEGIN
 	reg_define: PROCESS(RST_n, CLK)
 	BEGIN
 		IF RST_n = '0' THEN
-			D_OUT = to_signed(0, bitwidth);
+			D_OUT <= to_signed(0, bitwidth);
 		ELSIF CLK'EVENT AND CLK = '1' THEN
 			IF LD = '1'THEN
 				D_OUT <= D_IN;

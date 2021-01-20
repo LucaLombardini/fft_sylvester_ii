@@ -8,8 +8,8 @@ ENTITY reg_n IS
 	PORT(	CLK	: IN std_logic;
 	    	RST_n	: IN std_logic;
 		LD	: IN std_logic;
-		D_IN	: IN signed(bitwidth-1 DOWNTO 0);
-		D_OUT	: OUT signed(bitwidth-1 DOWNTO 0));
+		D_IN	: IN std_logic_vector(bitwidth-1 DOWNTO 0);
+		D_OUT	: OUT std_logic_vector(bitwidth-1 DOWNTO 0));
 END ENTITY;
 
 
@@ -18,7 +18,7 @@ BEGIN
 	reg_define: PROCESS(RST_n, CLK)
 	BEGIN
 		IF RST_n = '0' THEN
-			D_OUT = to_signed(0, bitwidth);
+			D_OUT <= (OTHERS => '0');
 		ELSIF CLK'EVENT AND CLK = '0' THEN
 			IF LD = '1'THEN
 				D_OUT <= D_IN;

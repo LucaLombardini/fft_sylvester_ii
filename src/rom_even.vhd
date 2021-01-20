@@ -5,8 +5,8 @@ USE work.definespack.all;
 USE work.cupack.all;
 
 ENTITY rom_even IS
-	PORT(	ADDR	: std_logic_vector(base_addr-1 DOWNTO 0);
-		DATA	: std_logic_vector(cc_lsb_addr-1 DOWNTO 0));
+	PORT(	ADDR	: IN std_logic_vector(base_addr-1 DOWNTO 0);
+		DATA	: OUT std_logic_vector(uir_width-1 DOWNTO 0));
 END ENTITY;
 
 
@@ -17,23 +17,23 @@ BEGIN
 rom_data_access: PROCESS(ADDR)
 BEGIN
 	CASE ADDR IS
-		WHEN X_IDLE => DATA <= S_IDLE;
-		WHEN X_LD_AR => DATA <= D_LD_AI;
-		WHEN X_LD_AI => DATA <= D_LD_BR;
-		WHEN X_LD_BR => DATA <= D_M1;
-		WHEN X_M1 => DATA <= D_M3;
-		WHEN X_M3 => DATA <= D_M2;
-		WHEN X_M2 => DATA <= D_M4;
-		WHEN X_M4 => DATA <= S_M5;
-		WHEN X_M5 => DATA <= S_M6;
-		WHEN X_M6 => DATA <= S_S5;
-		WHEN X_S5 => DATA <= S_S6;
-		WHEN X_S6 => DATA <= S_RND_BR;
-		WHEN X_RND_BR => DATA <= S_RND_BI;
-		WHEN X_RND_BI => DATA <= S_SND_BI;
-		WHEN XS_SND_BI => DATA <= S_IDLE;
-		WHEN XC_SND_BI => DATA <= S_M5;
-		WHEN OTHERS => DATA <= D_IDLE;
+		WHEN X_IDLE => DATA <= '1' & IDLE & '0' & CW_IDLE;
+		WHEN X_LD_AR => DATA <= '0' & LD_AI & '0' & CW_SLD_AR;
+		WHEN X_LD_AI => DATA <= '0' & LD_BR & '0' & CW_SLD_AI;
+		WHEN X_LD_BR => DATA <= '0' & S_M1 & '0' & CW_SLD_BR;
+		WHEN X_M1 => DATA <= '0' & S_M3 & '0' & CW_SM1;
+		WHEN X_M3 => DATA <= '0' & S_M2 & '0' & CW_SM3;
+		WHEN X_M2 => DATA <= '0' & S_M4 & '0' & CW_SM2;
+		WHEN X_M4 => DATA <= '1' & S_M5 & '0' & CW_SM4;
+		WHEN X_M5 => DATA <= '0' & S_M6 & '0' & CW_SM5;
+		WHEN X_M6 => DATA <= '0' & S_S5 & '0' & CW_SM6;
+		WHEN X_S5 => DATA <= '0' & S_S6 & '0' & CW_SS5;
+		WHEN X_S6 => DATA <= '0' & S_RND_BR & '0' & CW_SS6;
+		WHEN X_RND_BR => DATA <= '0' & S_RND_BI & '0' & CW_SRND_BR;
+		WHEN X_RND_BI => DATA <= '0' & S_SND_BI & '0' & CW_SRND_BI;
+		WHEN XS_SND_BI => DATA <= '0' & IDLE & '0' & CW_SSND_BI;
+		WHEN XC_SND_BI => DATA <= '0' & S_M5 & '0' & CW_CSND_BI;
+		WHEN OTHERS => DATA <= '1' & IDLE & '0' & CW_IDLE;
 	END CASE;
 END PROCESS;
 

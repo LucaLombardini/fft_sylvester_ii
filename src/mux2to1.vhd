@@ -1,7 +1,6 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 USE IEEE.numeric_std.all;
-USE work.definespack.all;
 
 ENTITY mux2to1 IS
 	GENERIC(bitwidth: positive	:= 8);
