@@ -18,8 +18,8 @@ rom_data_access: PROCESS(ADDR)
 BEGIN
 	CASE ADDR IS
 		WHEN X_IDLE => DATA <= '1' & IDLE & '0' & CW_IDLE;
-		WHEN X_LD_AR => DATA <= '0' & LD_AI & '0' & CW_SLD_AR;
-		WHEN X_LD_AI => DATA <= '0' & LD_BR & '0' & CW_SLD_AI;
+		WHEN X_LD_AR => DATA <= '0' & S_LD_AI & '0' & CW_SLD_AR;
+		WHEN X_LD_AI => DATA <= '0' & S_LD_BR & '0' & CW_SLD_AI;
 		WHEN X_LD_BR => DATA <= '0' & S_M1 & '0' & CW_SLD_BR;
 		WHEN X_M1 => DATA <= '0' & S_M3 & '0' & CW_SM1;
 		WHEN X_M3 => DATA <= '0' & S_M2 & '0' & CW_SM3;

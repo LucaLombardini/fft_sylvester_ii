@@ -1,8 +1,12 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 USE IEEE.numeric_std.all;
+USE IEEE.std_logic_textio.all;
 USE work.definespack.all;
-USE work.cupack.all
+USE work.cupack.all;
+
+LIBRARY STD;
+USE STD.textio.all;
 
 ENTITY tb_cu IS
 END ENTITY;
@@ -61,8 +65,8 @@ BEGIN
 		IF rst_n_dist = '0' THEN
 			NULL;
 		ELSIF clk_dist'EVENT AND clk_dist = '1' THEN
-			value := std_logic_vector(cw_to_print);
-			write(line_out, value);
+			--value := std_logic_vector(cw_to_print);
+			write(line_out, cw_to_print);
 			writeline(fp, line_out);
 		END IF;
 	END PROCESS;

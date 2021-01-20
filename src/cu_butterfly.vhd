@@ -59,7 +59,7 @@ ARCHITECTURE struct OF cu_butterfly IS
 	END COMPONENT;
 
 	SIGNAL next_address	: signed(base_addr DOWNTO 0); --not conn. yet
-	SIGNAL roms_address	: signed(base_addr-1 DOWNTO 0);
+	SIGNAL roms_address	: signed(base_addr DOWNTO 0);
 	SIGNAL even_out		: std_logic_vector(uir_width-1 DOWNTO 0);
 	SIGNAL odd_out		: std_logic_vector(uir_width-1 DOWNTO 0);
 	SIGNAL micro_addr_lsb	: std_logic;
@@ -103,7 +103,7 @@ BEGIN
 					u_command_reg_in);
 --############################################################################
 --#	uIR input composition of selected Next_address and actual command word
-	u_instr_in <= u_next_reg_in & u_command_reg_in;
+	u_instr_in <= std_logic_vector(u_next_reg_in) & std_logic_vector(u_command_reg_in);
 --############################################################################
 --#	uIR containing the next address, CC validation and actual command word
 	u_instruction: reg_n GENERIC MAP(uir_width) 
@@ -116,7 +116,7 @@ BEGIN
 	CTRL_WRD <= u_instr_out(command_len-1 DOWNTO 0);
 --############################################################################
 --#	Next address roundtrip completion to uAR input, w/out CC and LSB
-	next_address <= u_instr_out(uir_width-2 DOWNTO command_len+1);
+	next_address <= signed(u_instr_out(uir_width-2 DOWNTO command_len+1) & future_lsb );
 --############################################################################
 --#	Late status PLA used to combine LSB and STATUS when CC enabled
 	late_status:	late_status_pla PORT MAP(STATUS,
@@ -126,7 +126,7 @@ BEGIN
 					cc_validation);
 --############################################################################
 --#	uAR buffered LSB pickup
-	micro_addr_lsb <= std_logic_vector(roms_addresses)(0);
+	micro_addr_lsb <= roms_address(0);
 --############################################################################
 --#	Selection signal generation for the Next Address mux (implicit mux)
 	late_sel_bit <= future_lsb WHEN cc_validation = '1' ELSE micro_addr_lsb;
