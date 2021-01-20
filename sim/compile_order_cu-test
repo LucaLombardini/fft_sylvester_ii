@@ -1,0 +1,11 @@
+../src/definespack.vhd
+../src/cupack.vhd
+../src/reg.vhd
+../src/reg_n.vhd
+../src/rom_even.vhd
+../src/rom_odd.vhd
+../src/mux2to1.vhd
+../src/late_status_pla.vhd
+../src/cu_butterfly.vhd
+../tb/clkGen.vhd
+../tb/tb_cu.vhd

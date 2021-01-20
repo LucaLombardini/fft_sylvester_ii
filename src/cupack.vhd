@@ -4,11 +4,11 @@ USE IEEE.numeric_std.all;
 USE work.definespack.all;
 
 PACKAGE cupack IS
-	CONSTANT base_addr	: positive	:= "4";
-	CONSTANT lsb_addr	: positive	:= "5";
-	CONSTANT cc_lsb_addr	: positive	:= "6";
-	CONSTANT command_len	: positive	:= "23";
-	CONSTANT uir_width	: positive	:= "29";
+	CONSTANT base_addr	: positive	:= 4;
+	CONSTANT lsb_addr	: positive	:= 5;
+	CONSTANT cc_lsb_addr	: positive	:= 6;
+	CONSTANT command_len	: positive	:= 23;
+	CONSTANT uir_width	: positive	:= 29;
 	CONSTANT X_IDLE	: std_logic_vector(base_addr-1 DOWNTO 0) := "0000";
 	CONSTANT X_LD_AR	: std_logic_vector(base_addr-1 DOWNTO 0) := "0001";
 	CONSTANT X_LD_AI	: std_logic_vector(base_addr-1 DOWNTO 0) := "0010";

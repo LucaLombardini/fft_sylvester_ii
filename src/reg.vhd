@@ -1,7 +1,7 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
-USE IEE.numeric_std.all;
-USE worl.definespack.all;
+USE IEEE.numeric_std.all;
+USE work.definespack.all;
 
 ENTITY reg IS
 	GENERIC(bitwidth: positive	:= 8);
