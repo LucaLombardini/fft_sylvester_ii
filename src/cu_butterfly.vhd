@@ -99,7 +99,7 @@ BEGIN
 	mux_ctrl_wrd :  mux2to1 GENERIC MAP(command_len) 
 				PORT MAP(signed(even_out(command_len-1 DOWNTO 0)),
 					signed(odd_out(command_len-1 DOWNTO 0)),
-					micro_addr_lsb,
+					late_sel_bit,
 					u_command_reg_in);
 --############################################################################
 --#	uIR input composition of selected Next_address and actual command word

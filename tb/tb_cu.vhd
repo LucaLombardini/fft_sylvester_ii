@@ -44,9 +44,9 @@ BEGIN
 			start <= '0';
 			exec_cntr := exec_cntr + 1;
 			IF exec_cntr < 4 THEN	-- ALTERNATE 3 SINGLE WITH 3 CONTINUOUS
-				WAIT FOR 15 * clk_period;
+				WAIT FOR 14 * clk_period;
 			ELSIF exec_cntr > 3 AND exec_cntr < 7 THEN
-				WAIT FOR 7 * clk_period;
+				WAIT FOR 6 * clk_period;
 			ELSE
 				exec_cntr := 0;
 			END IF;
