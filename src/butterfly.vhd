@@ -30,7 +30,7 @@ ARCHITECTURE struct OF butterfly IS
 		PORT(	CLK	: IN std_logic;
 			RST_n	: IN std_logic;
 			STATUS	: IN std_logic;
-			CTRL_WRD: OUT std_logic_vector(command_len-1));
+			CTRL_WRD: OUT std_logic_vector(command_len-1 DOWNTO 0));
 	END COMPONENT;
 
 --#############################################################################
@@ -40,7 +40,7 @@ ARCHITECTURE struct OF butterfly IS
 BEGIN
 --#############################################################################
 --#	Datapath section of butterfly unit
-	datapath	: dp_butterfly 	PORT MAP(CLK
+	datapath	: dp_butterfly 	PORT MAP(CLK,
 					RST_n,
 					DATA_IN,
 					COEFF_IN,

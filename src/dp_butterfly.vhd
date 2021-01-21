@@ -26,7 +26,7 @@ COMPONENT register_file IS
 		WR_ADDR	: IN unsigned(wr_ports*addr_width-1 DOWNTO 0);
 		WR_DATA	: IN signed(wr_ports*data_width-1 DOWNTO 0);
 		RD_ADDR	: IN unsigned(rd_ports*addr_width-1 DOWNTO 0);
-		RD_DATA	: OUT signed(rd_ports*data_width));
+		RD_DATA	: OUT signed(rd_ports*data_width-1 DOWNTO 0));
 END COMPONENT;
 
 COMPONENT multiplier IS
@@ -105,8 +105,8 @@ BEGIN
 					DATA_IN,
 					rfd_addr_rd,
 					databus1);
-	rfd_addr_wr <= unsigned(CTRL_WORD(RFD_WR_ADDR1) & CTRL_WORD(RFD_WR_ADDR0));
-	rfd_addr_rd <= unsigned(CTRL_WORD(RFD_RD2_ADDR1) & CTRL_WORD(RFD_RD2_ADDR0) & CTRL_WORD(RFD_RD1_ADDR1) & CTRL_WORD(RFD_RD1_ADDR0));
+	rfd_addr_wr <= CTRL_WORD(RFD_WR_ADDR1) & CTRL_WORD(RFD_WR_ADDR0);
+	rfd_addr_rd <= CTRL_WORD(RFD_RD2_ADDR1) & CTRL_WORD(RFD_RD2_ADDR0) & CTRL_WORD(RFD_RD1_ADDR1) & CTRL_WORD(RFD_RD1_ADDR0);
 --#############################################################################
 --#	Register File for the coefficients
 	coef_reg_file	: register_file GENERIC MAP(rfc_addr_width,
@@ -115,9 +115,9 @@ BEGIN
 					rfc_rd_ports) 
 					PORT MAP(CLK,
 					CTRL_WORD(RFC_WR),
-					unsigned(CTRL_WORD(RFC_WR_ADDR)),
+					unsigned(CTRL_WORD(RFC_WR_ADDR DOWNTO RFC_WR_ADDR)),
 					COEFF_IN,
-					unsigned(CTRL_WORD(RFC_RD_ADDR)),
+					unsigned(CTRL_WORD(RFC_RD_ADDR DOWNTO RFC_RD_ADDR)),
 					coeffbus);
 --#############################################################################
 --#	Multiplier
@@ -152,7 +152,7 @@ BEGIN
 					CTRL_WORD(MUX3_SEL),
 					add1_portB);
 	-- duplicate sign and extend to 40 bits adding 19 trailing zeros
-	bus2_allign <= signed(data2bus(io_width-1) & std_logic_vector(data2bus  ) & std_logic_vector(to_unsigned(0, io_width-1)));
+	bus2_allign <= signed(databus2(io_width-1) & std_logic_vector(databus2) & std_logic_vector(to_unsigned(0, io_width-1)));
 --#############################################################################
 --#	Adder1
 	adder1		: adder 	PORT MAP(CLK,
