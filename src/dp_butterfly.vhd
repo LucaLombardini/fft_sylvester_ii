@@ -2,13 +2,14 @@ LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 USE IEEE.numeric_std.all;
 USE work.definespack.all;
+USE work.cupack.all;
 
 ENTITY dp_butterfly IS
 	PORT(	CLK		: IN std_logic;
 		RST_n		: IN std_logic;
 		DATA_IN	: IN signed(io_width-1 DOWNTO 0);
 		COEFF_IN	: IN signed(io_width-1 DOWNTO 0);
-		CTRL_WORD	: IN std_logic_vector(cw_width-1 DOWNTO 0);
+		CTRL_WORD	: IN std_logic_vector(command_len-1 DOWNTO 0);
 		DATA_OUT	: OUT signed(io_width-1 DOWNTO 0));
 END ENTITY;
 
@@ -66,5 +67,146 @@ COMPONENT mux2to1 IS
 		Y	: OUT signed(bitwidth-1 DOWNTO 0));
 END COMPONENT;
 
+--#############################################################################
+--# Buses
+SIGNAL databus1	: signed(io_width-1 DOWNTO 0); 
+SIGNAL databus2	: signed(io_width-1 DOWNTO 0);
+SIGNAL coeffbus	: signed(io_width-1 DOWNTO 0);
+--#############################################################################
+--# Local connections
+SIGNAL mult_line: signed(prod_width-1 DOWNTO 0); 
+SIGNAL add1_line: signed(add_width-1 DOWNTO 0);
+SIGNAL add2_line: signed(add_width-1 DOWNTO 0);
+--#############################################################################
+--# Temporary signals for port connection
+SIGNAL rfd_addr_wr : unsigned(rfd_wr_ports*rfd_addr_width-1 DOWNTO 0);
+SIGNAL rfd_addr_rd : unsigned(rfd_rd_ports*rfd_addr_width-1 DOWNTO 0);
+SIGNAL mult_out	   : signed(prod_width-1 DOWNTO 0);
+SIGNAL bus2_allign : signed(add_width-1 DOWNTO 0);
+SIGNAL chosen_src  : signed(add_width-1 DOWNTO 0);
+SIGNAL add1_portA  : signed(add_width-1 DOWNTO 0);
+SIGNAL add1_portB  : signed(add_width-1 DOWNTO 0);
+SIGNAL add1_out    : signed(add_width-1 DOWNTO 0);
+SIGNAL add2_portB  : signed(add_width-1 DOWNTO 0);
+SIGNAL add2_out    : signed(add_width-1 DOWNTO 0);
+SIGNAL rndr_in     : signed(add_width-1 DOWNTO 0);
+SIGNAL rndr_out    : signed(io_width-1 DOWNTO 0);
+
 BEGIN
+--#############################################################################
+--#	Register File for the input Data
+	data_reg_file	: register_file GENERIC MAP(rfd_addr_width,
+					rfd_data_width,
+					rfd_wr_ports,
+					rfd_rd_ports) 
+					PORT MAP(CLK,
+					CTRL_WORD(RFD_WR),
+					rfd_addr_wr,
+					DATA_IN,
+					rfd_addr_rd,
+					databus1);
+	rfd_addr_wr <= unsigned(CTRL_WORD(RFD_WR_ADDR1) & CTRL_WORD(RFD_WR_ADDR0));
+	rfd_addr_rd <= unsigned(CTRL_WORD(RFD_RD2_ADDR1) & CTRL_WORD(RFD_RD2_ADDR0) & CTRL_WORD(RFD_RD1_ADDR1) & CTRL_WORD(RFD_RD1_ADDR0));
+--#############################################################################
+--#	Register File for the coefficients
+	coef_reg_file	: register_file GENERIC MAP(rfc_addr_width,
+					rfc_data_width,
+					rfc_wr_ports,
+					rfc_rd_ports) 
+					PORT MAP(CLK,
+					CTRL_WORD(RFC_WR),
+					unsigned(CTRL_WORD(RFC_WR_ADDR)),
+					COEFF_IN,
+					unsigned(CTRL_WORD(RFC_RD_ADDR)),
+					coeffbus);
+--#############################################################################
+--#	Multiplier
+	multiplier_op	: multiplier 	PORT MAP(CLK,
+					databus1,
+					coeffbus,
+					CTRL_WORD(MULT_DOUBLE),
+					mult_out);
+--#############################################################################
+--#	Multiplier Result Buffer
+	reg_mult	: reg 		GENERIC MAP(prod_width) 
+					PORT MAP(CLK,
+					RST_n,
+					CTRL_WORD(R_MULT_LD),
+					mult_out,
+					mult_line);
+--#############################################################################
+--#	Adder1 input multiplexers
+	mux1_bus2_sum1	: mux2to1 	GENERIC MAP(add_width) 
+					PORT MAP(add1_line,
+					bus2_allign,
+					CTRL_WORD(MUX1_SEL),
+					chosen_src);
+	mux2_prod_mux1	: mux2to1 	GENERIC MAP(add_width) 
+					PORT MAP(chosen_src,
+					mult_line,
+					CTRL_WORD(MUX2_SEL),
+					add1_portA);
+	mux3_sum1_prod	: mux2to1 	GENERIC MAP(add_width) 
+					PORT MAP(mult_line,
+					add1_line,
+					CTRL_WORD(MUX3_SEL),
+					add1_portB);
+	-- duplicate sign and extend to 40 bits adding 19 trailing zeros
+	bus2_allign <= signed(data2bus(io_width-1) & std_logic_vector(data2bus  ) & std_logic_vector(to_unsigned(0, io_width-1)));
+--#############################################################################
+--#	Adder1
+	adder1		: adder 	PORT MAP(CLK,
+					add1_portA,
+					add1_portB,
+					CTRL_WORD(ADD1_SUB_ADD),
+					add1_out);
+--#############################################################################
+--#	Adder1 Result Buffer
+	reg_add1	: reg 		GENERIC MAP(add_width) 
+					PORT MAP(CLK,
+					RST_n,
+					CTRL_WORD(R_ADD1_LD),
+					add1_out,
+					add1_line);
+--#############################################################################
+--#	Adder2 input multiplexer
+	mux4_bus2_sum2	: mux2to1 	GENERIC MAP(add_width) 
+					PORT MAP(add2_line,
+					bus2_allign,
+					CTRL_WORD(MUX4_SEL),
+					add2_portB);
+--#############################################################################
+--#	Adder2
+	adder2		: adder 	PORT MAP(CLK,
+					mult_line,
+					add2_portB,
+					CTRL_WORD(ADD2_SUB_ADD),
+					add2_out);
+--#############################################################################
+--#	Adder2 Result Buffer
+	reg_add2	: reg 		GENERIC MAP(add_width) 
+					PORT MAP(CLK,
+					RST_n,
+					CTRL_WORD(R_ADD2_LD),
+					add2_out,
+					add2_line);
+--#############################################################################
+--#	Rounder input multiplexer
+	mux5_round	: mux2to1 	GENERIC MAP(add_width) 
+					PORT MAP(add1_line,
+					add2_line,
+					CTRL_WORD(MUX5_SEL),
+					rndr_in);
+--#############################################################################
+--#	Rounder
+	round_unit	: rounder 	PORT MAP(rndr_in,
+					rndr_out);
+--#############################################################################
+--#	Output Buffer
+	output_buffer	: reg 		GENERIC MAP(io_width) 
+					PORT MAP(CLK,
+					RST_n,
+					CTRL_WORD(OUT_BUF_LD),
+					rndr_out,
+					DATA_OUT);
 END ARCHITECTURE;

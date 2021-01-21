@@ -30,9 +30,6 @@ PACKAGE definespack IS
 	CONSTANT round_i_width	: positive	:= add_width;
 	CONSTANT round_o_width	: positive	:= io_width;
 --#############################################################################
---#	Control Unit defines
-	CONSTANT cw_width	: positive	:= 10;
---#############################################################################
 --#	Testbenches defines
 	CONSTANT clk_period	: time		:= 10 ns;
 	CONSTANT rst_release	: time		:= 15 ns;

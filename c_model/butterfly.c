@@ -9,8 +9,10 @@
  * ab = |b19|.|b18|...|b0|	-> The allignment must be based on dec. point!
  * 
  * |m39|m38|.|m37|...|m19| |m18|...|m0|  _\ |m39|m38|.|m37|...|m19|...|m0|
- *                   |b19|.|b18|...|b0|   /     |b19|.|b18|...|b0|
+ *                   |b19|.|b18|...|b0|   / |b19|b19|.|b18|...|b0|
  *                   						|____\ delta=19
+ * Note: sign extention automatically performed since a/b coeff. are casted to 
+ * 	signed
  */
 
 int _butterfly(unsigned int* A_r_in, unsigned int* A_i_in, unsigned int* B_r_in, unsigned int* B_i_in, unsigned int* w_r, unsigned int* w_i, unsigned int* A_r_out, unsigned int* A_i_out, unsigned int* B_r_out, unsigned int* B_i_out) {

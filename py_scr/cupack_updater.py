@@ -13,7 +13,7 @@ PACKAGE cupack IS
 
 BASE='\tCONSTANT {}\t: std_logic_vector({}-1 DOWNTO 0) := "{}";\n'
 
-BASE_K = '\tCONSTANT {}\t: positive\t:= "{}";\n'
+BASE_K = '\tCONSTANT {}\t: integer\t:= {};\n'
 
 FOOTER="END cupack;"
 
@@ -37,8 +37,12 @@ with open(FILEOUT, 'w') as f_out, open(FILENAME,'r') as tracker:	# file which wi
 			csvbuf = csv.reader(filein)
 			for line_no, line_list in enumerate(csvbuf):
 				if line_no:	# the first line is just a header with info for humans
-					tag = line_list[0]
-					bit_string = ''.join( [ _ for _ in line_list[1:] if _ != '-' ] )	# do not pick - in the bitstring
-					f_out.write(BASE.format(tag, bit_len_map[len(bit_string)], bit_string))		# add a label definition
+					if "index" in line_list:
+						for position, bit_label in enumerate(line_list[1:]):
+							f_out.write(BASE_K.format(bit_label, len(line_list[1:]) - position - 1))
+					else:
+						tag = line_list[0]
+						bit_string = ''.join( [ _ for _ in line_list[1:] if _ != '-' ] )	# do not pick - in the bitstring
+						f_out.write(BASE.format(tag, bit_len_map[len(bit_string)], bit_string))		# add a label definition
 		
 	f_out.write(FOOTER)
