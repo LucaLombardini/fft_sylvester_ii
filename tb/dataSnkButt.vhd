@@ -27,7 +27,7 @@ BEGIN
 	BEGIN
 		IF RST_n = '0' THEN
 			cycle := 0;
-		IF CLK'EVENT AND CLK = '0' THEN
+		ELSIF CLK'EVENT AND CLK = '0' THEN
 			IF DATA_RDY = '1' THEN
 				value := std_logic_vector(DATA);
 				hwrite(line_out, value);

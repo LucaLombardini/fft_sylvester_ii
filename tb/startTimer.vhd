@@ -22,7 +22,8 @@ BEGIN
 		CONSTANT tc_contin : integer := 6; -- 7 states periodicity
 	BEGIN
 		IF RST_n = '0' THEN
-			cntr := 0;
+			cntr := tc_single;
+			STROBE <= '0';
 		ELSIF CLK'EVENT AND CLK = '0' THEN -- late status use
 			IF CONT_SING_n = '0' THEN
 				IF cntr = tc_single THEN

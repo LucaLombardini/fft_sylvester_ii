@@ -36,7 +36,7 @@ PACKAGE definespack IS
 	
 	CONSTANT filename1	: string	:= "../tb/notorious_sigs.hex";
 	CONSTANT input_file	: string	:= filename1;
-	CONSTANT dut_cycle_lat	: positive	:= 1;
+	CONSTANT dut_cycle_lat	: positive	:= 14;
 	CONSTANT output_file	: string	:= "results.hex";
 	CONSTANT serial_data	: integer	:= 4;
 	CONSTANT adder_const	: signed	:= to_signed(1,add_width);

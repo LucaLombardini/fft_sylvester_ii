@@ -56,12 +56,13 @@ ARCHITECTURE tb OF tb_butterfly IS
 	SIGNAL d_in, c_in, d_out : signed(io_width-1 DOWNTO 0);
 
 BEGIN
+	mode_dist <= '0';
 
 	clk_gen	: clkGen PORT MAP(end_sim_dist, clk_dist, rst_n_dist);
 	
 	timed_start	: startTimer PORT MAP(clk_dist, rst_n_dist, mode_dist, start_dist);
 	
-	data_in_mkr	: dataMkrButt PORT MAP(clk_dist, rst_n_dist, start_dist, d_in, c_in, end_sim_distr);
+	data_in_mkr	: dataMkrButt PORT MAP(clk_dist, rst_n_dist, start_dist, d_in, c_in, end_sim_dist);
 
 	dut_butterfly	: butterfly PORT MAP(clk_dist, rst_n_dist, start_dist, d_in, c_in, done_dist, d_out);
 	

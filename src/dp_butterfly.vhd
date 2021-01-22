@@ -22,7 +22,7 @@ COMPONENT register_file IS
 		wr_ports	: positive	:= 1;
 		rd_ports	: positive	:= 1);
 	PORT(	CLK		: IN std_logic;
-		WR		: IN std_logic;
+		WR		: IN std_logic_vector(wr_ports-1 DOWNTO 0);
 		WR_ADDR	: IN unsigned(wr_ports*addr_width-1 DOWNTO 0);
 		WR_DATA	: IN signed(wr_ports*data_width-1 DOWNTO 0);
 		RD_ADDR	: IN unsigned(rd_ports*addr_width-1 DOWNTO 0);
@@ -33,7 +33,7 @@ COMPONENT multiplier IS
 	PORT(	CLK	: IN std_logic;
 		A	: IN signed(m_in_width-1 DOWNTO 0);
 		B	: IN signed(m_in_width-1 DOWNTO 0);
-		M_D_n	: IN std_logic;
+		D_M_n	: IN std_logic;
 		PROD	: OUT signed(prod_width-1 DOWNTO 0));
 END COMPONENT;
 
@@ -41,7 +41,7 @@ COMPONENT adder IS
 	PORT(	CLK	: IN std_logic;
 		A	: IN signed(add_width-1 DOWNTO 0);
 	    	B	: IN signed(add_width-1 DOWNTO 0);
-		A_S_n	: IN std_logic;
+		S_A_n	: IN std_logic;
 		SUM	: OUT signed(add_width-1 DOWNTO 0));
 END COMPONENT;
 
@@ -81,6 +81,7 @@ SIGNAL add2_line: signed(add_width-1 DOWNTO 0);
 --# Temporary signals for port connection
 SIGNAL rfd_addr_wr : unsigned(rfd_wr_ports*rfd_addr_width-1 DOWNTO 0);
 SIGNAL rfd_addr_rd : unsigned(rfd_rd_ports*rfd_addr_width-1 DOWNTO 0);
+SIGNAL bus_concat  : signed(rfd_rd_ports*io_width-1 DOWNTO 0);
 SIGNAL mult_out	   : signed(prod_width-1 DOWNTO 0);
 SIGNAL bus2_allign : signed(add_width-1 DOWNTO 0);
 SIGNAL chosen_src  : signed(add_width-1 DOWNTO 0);
@@ -100,11 +101,13 @@ BEGIN
 					rfd_wr_ports,
 					rfd_rd_ports) 
 					PORT MAP(CLK,
-					CTRL_WORD(RFD_WR),
+					CTRL_WORD(RFD_WR DOWNTO RFD_WR),
 					rfd_addr_wr,
 					DATA_IN,
 					rfd_addr_rd,
-					databus1);
+					bus_concat);
+	databus1 <= bus_concat(io_width-1 DOWNTO 0);
+	databus2 <= bus_concat(2*io_width-1 DOWNTO io_width);
 	rfd_addr_wr <= CTRL_WORD(RFD_WR_ADDR1) & CTRL_WORD(RFD_WR_ADDR0);
 	rfd_addr_rd <= CTRL_WORD(RFD_RD2_ADDR1) & CTRL_WORD(RFD_RD2_ADDR0) & CTRL_WORD(RFD_RD1_ADDR1) & CTRL_WORD(RFD_RD1_ADDR0);
 --#############################################################################
@@ -114,7 +117,7 @@ BEGIN
 					rfc_wr_ports,
 					rfc_rd_ports) 
 					PORT MAP(CLK,
-					CTRL_WORD(RFC_WR),
+					CTRL_WORD(RFC_WR DOWNTO RFC_WR),
 					unsigned(CTRL_WORD(RFC_WR_ADDR DOWNTO RFC_WR_ADDR)),
 					COEFF_IN,
 					unsigned(CTRL_WORD(RFC_RD_ADDR DOWNTO RFC_RD_ADDR)),

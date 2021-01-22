@@ -55,20 +55,21 @@ BEGIN
 	BEGIN
 		IF STARTR = '1' THEN
 			DATA <= data_buf(0);	-- ar
-			cycle := 1
+			cycle := 1;
 		ELSIF CLK'EVENT AND CLK = '0' THEN
 			IF cycle = 1 THEN
 				DATA <= data_buf(1); --ai
 			END IF;
 			IF cycle = 2 THEN
 				DATA <= data_buf(2); --br
-				COEFF <= data_buf(4); --wr
+				COEF <= data_buf(4); --wr
 			END IF;
 			IF cycle = 3 THEN
 				DATA <= data_buf(3); --bi
-				COEFF <= data_buf(5); --wi
+				COEF <= data_buf(5); --wi
 			END IF;
 			cycle := cycle + 1;
+		END IF;
 	END PROCESS;
 
 	simulation_ender: PROCESS(RST_n, CLK)
