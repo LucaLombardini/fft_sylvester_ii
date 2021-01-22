@@ -30,7 +30,9 @@ ARCHITECTURE tb OF tb_butterfly IS
 	END COMPONENT;
 
 	COMPONENT startTimer IS
-		PORT(	CONT_SING_n	: IN std_logic;
+		PORT(	CLK		: IN std_logic;
+			RST_n		: IN std_logic;
+			CONT_SING_n	: IN std_logic;
 			STROBE		: OUT std_logic);
 	END COMPONENT;
 	
@@ -58,7 +60,7 @@ BEGIN
 
 	clk_gen	: clkGen PORT MAP(end_sim_dist, clk_dist, rst_n_dist);
 	
-	timed_start	: startTimer PORT MAP(mode_dist, start_dist);
+	timed_start	: startTimer PORT MAP(clk_dist, rst_n_dist, mode_dist, start_dist);
 	
 	data_in_mkr	: dataMkrButt PORT MAP(clk_dist, rst_n_dist, start_dist, d_in, c_in, end_sim_dist);
 
