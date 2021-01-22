@@ -32,7 +32,7 @@ PACKAGE definespack IS
 --#############################################################################
 --#	Testbenches defines
 	CONSTANT clk_period	: time		:= 10 ns;
-	CONSTANT rst_release	: time		:= 15 ns;
+	CONSTANT rst_release	: time		:= 12 ns;
 	
 	CONSTANT filename1	: string	:= "../tb/notorious_sigs.hex";
 	CONSTANT input_file	: string	:= filename1;

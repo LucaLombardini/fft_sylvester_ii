@@ -4,45 +4,30 @@ USE IEEE.numeric_std.all;
 USE work.definespack.all;
 
 ENTITY startTimer IS
-	PORT(	CLK		: IN std_logic;
-		RST_n		: IN std_logic;
-		CONT_SING_n	: IN std_logic;
+	PORT(	CONT_SING_n	: IN std_logic;
 		STROBE		: OUT std_logic);
 END ENTITY;
 
 
 ARCHITECTURE behav OF startTimer IS
-	SIGNAL clk_inf	: std_logic;
-	SIGNAL clr	: std_logic;
+	SIGNAL strobe_dist : std_logic;
 BEGIN
+	STROBE <= strobe_dist;
 	
-	strobe_gen: PROCESS(RST_n, CLK)
-		VARIABLE cntr : integer;
-		CONSTANT tc_single : integer := 14;
-		CONSTANT tc_contin : integer := 6; -- 7 states periodicity
+	strobe_gen: PROCESS
 	BEGIN
-		IF RST_n = '0' THEN
-			cntr := tc_single;
-			STROBE <= '0';
-		ELSIF CLK'EVENT AND CLK = '0' THEN -- late status use
+		IF strobe_dist = 'U' THEN
+			strobe_dist <= '0';
+			WAIT FOR 28 ns;
+		ELSE
+			strobe_dist <= '1';
+			WAIT FOR 10 ns;
+			strobe_dist <= '0';
 			IF CONT_SING_n = '0' THEN
-				IF cntr = tc_single THEN
-					cntr := 0;
-					STROBE <= '1';
-				ELSE
-					cntr := cntr + 1;
-					STROBE <= '0';
-				END IF;
+				WAIT FOR 140 ns;
 			ELSE
-				IF cntr = tc_contin THEN
-					cntr := 0;
-					STROBE <= '1';
-				ELSE
-					cntr := cntr + 1;
-					STROBE <= '0';
-				END IF;
+				WAIT FOR 60 ns;
 			END IF;
 		END IF;
 	END PROCESS;
-
 END ARCHITECTURE;
