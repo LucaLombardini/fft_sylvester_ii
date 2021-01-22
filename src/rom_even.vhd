@@ -18,21 +18,21 @@ rom_data_access: PROCESS(ADDR)
 BEGIN
 	CASE ADDR IS
 		WHEN X_IDLE => DATA <= '1' & IDLE & '0' & CW_IDLE;
-		WHEN X_LD_AR => DATA <= '0' & S_LD_AI & '0' & CW_SLD_AI;
-		WHEN X_LD_AI => DATA <= '0' & S_LD_BR & '0' & CW_SLD_BR;
-		WHEN X_LD_BR => DATA <= '0' & S_M1 & '0' & CW_SM1;
-		WHEN X_M1 => DATA <= '0' & S_M3 & '0' & CW_SM3;
-		WHEN X_M3 => DATA <= '0' & S_M2 & '0' & CW_SM2;
-		WHEN X_M2 => DATA <= '0' & S_M4 & '0' & CW_SM4;
-		WHEN X_M4 => DATA <= '1' & S_M5 & '0' & CW_SM5;
-		WHEN X_M5 => DATA <= '0' & S_M6 & '0' & CW_SM6;
-		WHEN X_M6 => DATA <= '0' & S_S5 & '0' & CW_SS5;
-		WHEN X_S5 => DATA <= '0' & S_S6 & '0' & CW_SS6;
-		WHEN X_S6 => DATA <= '0' & S_RND_BR & '0' & CW_SRND_BR;
-		WHEN X_RND_BR => DATA <= '0' & S_RND_BI & '0' & CW_SRND_BI;
-		WHEN X_RND_BI => DATA <= '0' & S_SND_BI & '0' & CW_SSND_BI;
-		WHEN XS_SND_BI => DATA <= '0' & IDLE & '0' & CW_IDLE;
-		WHEN XC_SND_BI => DATA <= '0' & S_M5 & '0' & CW_SM5;
+		WHEN X_LD_AR => DATA <= '0' & S_LD_AI & '0' & CW_SLD_AR;
+		WHEN X_LD_AI => DATA <= '0' & S_LD_BR & '0' & CW_SLD_AI;
+		WHEN X_LD_BR => DATA <= '0' & S_M1 & '0' & CW_SLD_BR;
+		WHEN X_M1 => DATA <= '0' & S_M3 & '0' & CW_SM1;
+		WHEN X_M3 => DATA <= '0' & S_M2 & '0' & CW_SM3;
+		WHEN X_M2 => DATA <= '0' & S_M4 & '0' & CW_SM2;
+		WHEN X_M4 => DATA <= '1' & S_M5 & '0' & CW_SM4;
+		WHEN X_M5 => DATA <= '0' & S_M6 & '0' & CW_SM5;
+		WHEN X_M6 => DATA <= '0' & S_S5 & '0' & CW_SM6;
+		WHEN X_S5 => DATA <= '0' & S_S6 & '0' & CW_SS5;
+		WHEN X_S6 => DATA <= '0' & S_RND_BR & '0' & CW_SS6;
+		WHEN X_RND_BR => DATA <= '0' & S_RND_BI & '0' & CW_SRND_BR;
+		WHEN X_RND_BI => DATA <= '0' & S_SND_BI & '0' & CW_SRND_BI;
+		WHEN XS_SND_BI => DATA <= '0' & IDLE & '0' & CW_SSND_BI;
+		WHEN XC_SND_BI => DATA <= '0' & S_M5 & '0' & CW_CSND_BI;
 		WHEN OTHERS => DATA <= '1' & IDLE & '0' & CW_IDLE;
 	END CASE;
 END PROCESS;
