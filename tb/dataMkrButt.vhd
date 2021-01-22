@@ -35,17 +35,19 @@ BEGIN
 		IF RST_n = '0' THEN
 			isEndFile <= '0'; --CAUSE INITIAL UNASSIGNED VALUE
 		ELSIF CLK'EVENT AND CLK = '0' THEN --READ 6 VALUES FROM FILE
-			cntr := 0;
-			WHILE cntr /= many_data AND NOT(endfile(fp)) LOOP
-				readline(fp, file_line);
-				hread(file_line, value);
-				data_buf(cntr) <= signed(value);
-				cntr := cntr + 1;
-			END LOOP;
-			IF NOT(endfile(fp)) THEN
-				isEndFile <= '0';
-			ELSE
-				isEndFile <= '1';
+			IF STARTR = '1' THEN -- READ NEW DATA ONLY WHEN NEEDED
+				cntr := 0;
+				WHILE cntr /= many_data AND NOT(endfile(fp)) LOOP
+					readline(fp, file_line);
+					hread(file_line, value);
+					data_buf(cntr) <= signed(value);
+					cntr := cntr + 1;
+				END LOOP;
+				IF NOT(endfile(fp)) THEN
+					isEndFile <= '0';
+				ELSE
+					isEndFile <= '1';
+				END IF;
 			END IF;
 		END IF;
 	END PROCESS;
@@ -53,22 +55,24 @@ BEGIN
 	assign_process: PROCESS(STARTR, CLK) --assign ordered data, only after a start assertion
 		VARIABLE cycle : integer;
 	BEGIN
-		IF STARTR = '1' THEN
-			DATA <= data_buf(0);	-- ar
-			cycle := 1;
 		ELSIF CLK'EVENT AND CLK = '0' THEN
-			IF cycle = 1 THEN
-				DATA <= data_buf(1); --ai
+			IF STARTR = '1' THEN
+				DATA <= data_buf(0);	-- ar
+				cycle := 1;
+			ELSE
+				IF cycle = 1 THEN
+					DATA <= data_buf(1); --ai
+				END IF;
+				IF cycle = 2 THEN
+					DATA <= data_buf(2); --br
+					COEF <= data_buf(4); --wr
+				END IF;
+				IF cycle = 3 THEN
+					DATA <= data_buf(3); --bi
+					COEF <= data_buf(5); --wi
+				END IF;
+				cycle := cycle + 1;
 			END IF;
-			IF cycle = 2 THEN
-				DATA <= data_buf(2); --br
-				COEF <= data_buf(4); --wr
-			END IF;
-			IF cycle = 3 THEN
-				DATA <= data_buf(3); --bi
-				COEF <= data_buf(5); --wi
-			END IF;
-			cycle := cycle + 1;
 		END IF;
 	END PROCESS;
 
