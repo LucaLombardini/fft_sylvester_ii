@@ -52,10 +52,10 @@ BEGIN
 		END IF;
 	END PROCESS;
 
-	assign_process: PROCESS(STARTR, CLK) --assign ordered data, only after a start assertion
+	assign_process: PROCESS(CLK) --assign ordered data, only after a start assertion
 		VARIABLE cycle : integer;
 	BEGIN
-		ELSIF CLK'EVENT AND CLK = '0' THEN
+		IF CLK'EVENT AND CLK = '0' THEN
 			IF STARTR = '1' THEN
 				DATA <= data_buf(0);	-- ar
 				cycle := 1;

@@ -19,7 +19,7 @@ END ENTITY;
 
 
 ARCHITECTURE behav OF register_file IS
-	SUBTYPE reg_locs IS NATURAL RANGE 0 TO 2**(addr_width);
+	SUBTYPE reg_locs IS NATURAL RANGE 0 TO ((2**(addr_width)) -1);
 	TYPE reg_array IS ARRAY(reg_locs) OF signed(data_width-1 DOWNTO 0);
 	SIGNAL register_block	: reg_array;
 BEGIN
