@@ -31,12 +31,15 @@ BEGIN
 		VARIABLE value 	: std_logic_vector(io_width-1 DOWNTO 0);
 		VARIABLE many_data	: integer := 6;
 		VARIABLE cntr		: integer;
+		VARIABLE cycle		: integer;
+		VARIABLE many_cycles	: integer := 4;
 	BEGIN
 		IF RST_n = '0' THEN
 			isEndFile <= '0'; --CAUSE INITIAL UNASSIGNED VALUE
 		ELSIF CLK'EVENT AND CLK = '0' THEN --READ 6 VALUES FROM FILE
 			IF STARTR = '1' THEN -- READ NEW DATA ONLY WHEN NEEDED
 				cntr := 0;
+				cycle := 0;
 				WHILE cntr /= many_data AND NOT(endfile(fp)) LOOP
 					readline(fp, file_line);
 					hread(file_line, value);
@@ -49,28 +52,15 @@ BEGIN
 					isEndFile <= '1';
 				END IF;
 			END IF;
-		END IF;
-	END PROCESS;
-
-	assign_process: PROCESS(CLK) --assign ordered data, only after a start assertion
-		VARIABLE cycle : integer;
-	BEGIN
-		IF CLK'EVENT AND CLK = '0' THEN
-			IF STARTR = '1' THEN
-				DATA <= data_buf(0);	-- ar
-				cycle := 1;
-			ELSE
-				IF cycle = 1 THEN
-					DATA <= data_buf(1); --ai
-				END IF;
-				IF cycle = 2 THEN
-					DATA <= data_buf(2); --br
-					COEF <= data_buf(4); --wr
-				END IF;
-				IF cycle = 3 THEN
-					DATA <= data_buf(3); --bi
-					COEF <= data_buf(5); --wi
-				END IF;
+			IF cycle < many_cycles THEN
+				CASE cycle IS
+					WHEN 0 =>	DATA <= data_buf(0); --AR
+					WHEN 1 =>	DATA <= data_buf(1); --AI
+					WHEN 2 =>	DATA <= data_buf(2); --BR
+							COEF <= data_buf(4); --WR
+					WHEN OTHERS =>	DATA <= data_buf(3); --BI
+							COEF <= data_buf(5); --WI
+				END CASE;
 				cycle := cycle + 1;
 			END IF;
 		END IF;
