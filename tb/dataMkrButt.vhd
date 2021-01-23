@@ -19,11 +19,15 @@ END ENTITY;
 
 
 ARCHITECTURE behav OF dataMkrButt IS
-	TYPE DATA_ARRAY IS ARRAY(0 TO 5) OF signed(io_width-1 DOWNTO 0);
+	TYPE DATA_ARRAY IS ARRAY(0 TO 3) OF signed(io_width-1 DOWNTO 0);
+	TYPE COEF_ARRAY IS ARRAY(0 TO 3) OF signed(io_width-1 DOWNTO 0);
 	SIGNAL data_buf : DATA_ARRAY;
+	SIGNAL coef_buf : COEF_ARRAY;
 --	SIGNAL ar, ai, br, bi, wr, wi : signed(io_width-1 DOWNTO 0);
 	SIGNAL isEndFile : std_logic;
 BEGIN
+	DATA <= data_buf(0);
+	COEF <= coef_buf(0);
 
 	read_process: PROCESS(RST_n, CLK) -- read 6 values in block when descending clk
 		FILE fp : text OPEN read_mode IS "butterfly_in.hex";
@@ -37,12 +41,24 @@ BEGIN
 		IF RST_n = '0' THEN
 			isEndFile <= '0'; --CAUSE INITIAL UNASSIGNED VALUE
 		ELSIF CLK'EVENT AND CLK = '0' THEN --READ 6 VALUES FROM FILE
-			IF STARTR = '1' THEN -- READ NEW DATA ONLY WHEN NEEDED
+			IF STARTR = '1' THEN -- READ NEW DATA ONLY WHEN NEEDED: LIKE A CLEAR FOR THE PIPES
 				cntr := 0;
 				cycle := 0;
 				WHILE cntr /= many_data AND NOT(endfile(fp)) LOOP
 					readline(fp, file_line);
 					hread(file_line, value);
+					CASE cntr IS
+						WHEN 0 =>	data_buf(0) <= signed(value); --AR
+						WHEN 1 =>	data_buf(1) <= signed(value); --AI
+						WHEN 2 =>	data_buf(2) <= signed(value); --BR
+								readline(fp, file_line);
+								hread(file_line, value);
+								coef_buf(2) <= signed(value); --WR
+						WHEN OTHERS =>	data_buf(3) <= signed(value); --BI
+								readline(fp, file_line);
+								hread(file_line, value);
+								coef_buf(3) <= signed(value); --WI
+					END CASE;
 					data_buf(cntr) <= signed(value);
 					cntr := cntr + 1;
 				END LOOP;
@@ -51,17 +67,9 @@ BEGIN
 				ELSE
 					isEndFile <= '1';
 				END IF;
-			END IF;
-			IF cycle < many_cycles THEN
-				CASE cycle IS
-					WHEN 0 =>	DATA <= data_buf(0); --AR
-					WHEN 1 =>	DATA <= data_buf(1); --AI
-					WHEN 2 =>	DATA <= data_buf(2); --BR
-							COEF <= data_buf(4); --WR
-					WHEN OTHERS =>	DATA <= data_buf(3); --BI
-							COEF <= data_buf(5); --WI
-				END CASE;
-				cycle := cycle + 1;
+			ELSE -- PIPE ADVANCE
+				data_buf(0 TO 2) <= data_buf(1 TO 3);
+				coef_buf(0 TO 2) <= coef_buf(1 TO 3);
 			END IF;
 		END IF;
 	END PROCESS;
