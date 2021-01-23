@@ -24,5 +24,5 @@ BEGIN
 	round(round_o_width-1 DOWNTO 1)	<= (OTHERS => '0');
 	round(0) <= (isCenter AND (isOdd OR notZero));
 	upperHalf <= ROUND_IN(round_i_width-1 DOWNTO round_i_width - round_o_width);
-	ROUND_OUT <= upperHalf + round;
+	ROUND_OUT <= upperHalf + round AFTER (3*clk_period)/4;
 END ARCHITECTURE;
