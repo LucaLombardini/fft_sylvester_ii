@@ -48,14 +48,14 @@ PACKAGE cupack IS
 	CONSTANT CW_SM5	: std_logic_vector(command_len-1 DOWNTO 0) := "00000000001100010001000";
 	CONSTANT CW_SM6	: std_logic_vector(command_len-1 DOWNTO 0) := "00000010001100001000000";
 	CONSTANT CW_SS5	: std_logic_vector(command_len-1 DOWNTO 0) := "00000000000101110001000";
-	CONSTANT CW_SS6	: std_logic_vector(command_len-1 DOWNTO 0) := "00000000000000001110111";
+	CONSTANT CW_SS6	: std_logic_vector(command_len-1 DOWNTO 0) := "00000000000000001010111";
 	CONSTANT CW_SRND_BR	: std_logic_vector(command_len-1 DOWNTO 0) := "00000000000000000001010";
 	CONSTANT CW_SRND_BI	: std_logic_vector(command_len-1 DOWNTO 0) := "00000000000000000000110";
 	CONSTANT CW_SSND_BI	: std_logic_vector(command_len-1 DOWNTO 0) := "00000000000000000000010";
 	CONSTANT CW_CM5	: std_logic_vector(command_len-1 DOWNTO 0) := "00000100001100010001000";
 	CONSTANT CW_CM6	: std_logic_vector(command_len-1 DOWNTO 0) := "00010110001100001000000";
 	CONSTANT CW_CS5	: std_logic_vector(command_len-1 DOWNTO 0) := "01001100000101110001000";
-	CONSTANT CW_CS6	: std_logic_vector(command_len-1 DOWNTO 0) := "11011101000000001110111";
+	CONSTANT CW_CS6	: std_logic_vector(command_len-1 DOWNTO 0) := "11011101000000001010111";
 	CONSTANT CW_CRND_BR	: std_logic_vector(command_len-1 DOWNTO 0) := "00100001000100000001010";
 	CONSTANT CW_CRND_BI	: std_logic_vector(command_len-1 DOWNTO 0) := "00100011000110000000110";
 	CONSTANT CW_CSND_BI	: std_logic_vector(command_len-1 DOWNTO 0) := "00000011100100001100010";
