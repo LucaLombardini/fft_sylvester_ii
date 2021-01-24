@@ -9,4 +9,4 @@ add wave sim:/tb_butterfly/dut_butterfly/datapath/adder1/S_A_n
 add wave sim:/tb_butterfly/dut_butterfly/datapath/mux4_bus2_sum2/*
 add wave sim:/tb_butterfly/dut_butterfly/datapath/adder2/S_A_n
 add wave sim:/tb_butterfly/dut_butterfly/datapath/mux5_round/*
-run 200 ns
+run 750 ns

@@ -57,7 +57,7 @@ BEGIN
 	mode_switcher: PROCESS
 	BEGIN
 		mode_dist <= '1';
-		WAIT FOR (7*3 + 5)*clk_period;
+		WAIT FOR (7*2)*clk_period;
 		mode_dist <= '0';
 		WAIT;
 	END PROCESS;
