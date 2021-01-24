@@ -44,7 +44,7 @@ BEGIN
 			IF STARTR = '1' THEN -- READ NEW DATA ONLY WHEN NEEDED: LIKE A CLEAR FOR THE PIPES
 				cntr := 0;
 				cycle := 0;
-				WHILE cntr /= many_data AND NOT(endfile(fp)) LOOP
+				WHILE cntr < many_cycles AND NOT(endfile(fp)) LOOP
 					readline(fp, file_line);
 					hread(file_line, value);
 					CASE cntr IS
@@ -59,7 +59,7 @@ BEGIN
 								hread(file_line, value);
 								coef_buf(3) <= signed(value); --WI
 					END CASE;
-					data_buf(cntr) <= signed(value);
+					--data_buf(cntr) <= signed(value);
 					cntr := cntr + 1;
 				END LOOP;
 				IF NOT(endfile(fp)) THEN

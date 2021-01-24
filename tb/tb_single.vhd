@@ -8,10 +8,10 @@ USE work.cupack.all;
 LIBRARY STD;
 USE STD.textio.all;
 
-ENTITY tb_butterfly IS
+ENTITY tb_single IS
 END ENTITY;
 
-ARCHITECTURE tb OF tb_butterfly IS
+ARCHITECTURE tb OF tb_single IS
 
 	COMPONENT butterfly IS
 		PORT(	CLK	: IN std_logic;
@@ -54,13 +54,7 @@ ARCHITECTURE tb OF tb_butterfly IS
 	SIGNAL d_in, c_in, d_out : signed(io_width-1 DOWNTO 0);
 
 BEGIN
-	mode_switcher: PROCESS
-	BEGIN
-		mode_dist <= '1';
-		WAIT FOR (7*3 + 5)*clk_period;
-		mode_dist <= '0';
-		WAIT;
-	END PROCESS;
+	mode_dist <= '0';
 
 	clk_gen	: clkGen PORT MAP(end_sim_dist, clk_dist, rst_n_dist);
 	
