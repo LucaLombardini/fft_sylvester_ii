@@ -5,7 +5,7 @@ import random
 not_msb = list("0123456789ABCDEF")
 msb = list("0123CDEF")
 
-data_set = 10000
+data_set = 1000
 many_chars = 5
 many_data = 6
 
@@ -18,4 +18,5 @@ with open("../sim/butterfly_in.hex","w") as fileout:
 					tmp += random.choice(not_msb)
 				else:
 					tmp = random.choice(msb)
-			fileout.writelines(tmp)
+			fileout.write(tmp + "\n")
+
