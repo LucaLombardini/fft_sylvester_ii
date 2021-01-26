@@ -2,6 +2,11 @@
 #include "butterfly.h"
 #endif
 
+#ifndef BIT_LENGTH
+#pragma message("BIT_LENGTH definition not found")
+#define BIT_LENGTH 20
+#endif
+
 /* ALLIGNMENT MOTIVATION
  *
  * mx = |m39|m38|.|m37|...|m0|

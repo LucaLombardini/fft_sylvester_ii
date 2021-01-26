@@ -18,7 +18,6 @@ int main(int argc, char** argv) {
 	unsigned int out_v[DATA_VECT_ELEMENT-2];
 	unsigned int index;
 	if (argc <= 2) {
-		puts(argv[1]);
 		if (argc == 1) {
 			fp_in = fopen("sample.txt", "r");
 		} else {
