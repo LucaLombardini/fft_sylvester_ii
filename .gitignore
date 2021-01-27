@@ -9,3 +9,4 @@ sim/vsim.wlf
 .cu_map_even.ods
 .cu_map_odd.ods
 .~lock.*
+py_scr/in_mkr.m

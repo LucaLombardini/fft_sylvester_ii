@@ -47,4 +47,13 @@ PACKAGE definespack IS
 	CONSTANT rf_rd_test	: positive	:= 2;
 	CONSTANT maker_width	: positive	:= rf_data_test*rf_wr_test;
 	CONSTANT sink_width	: positive	:= rf_data_test*rf_rd_test;
+--#############################################################################
+--#	FFT defines
+	CONSTANT n_samples	: positive	:= 16;
+	CONSTANT n_coef		: positive	:= n_samples/2;
+	CONSTANT data_ports	: positive	:= 1;
+	CONSTANT butt_per_level	: positive	:= 8;
+	CONSTANT coef_ports	: positive	:= 1;
+	CONSTANT new_coeffs	: positive	:= n_coef/2;
+	CONSTANT out_ports	: positive	:= 1;
 END definespack;
