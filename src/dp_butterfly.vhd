@@ -7,10 +7,12 @@ USE work.cupack.all;
 ENTITY dp_butterfly IS
 	PORT(	CLK		: IN std_logic;
 		RST_n		: IN std_logic;
-		DATA_IN	: IN signed(io_width-1 DOWNTO 0);
+		PORT_A		: IN signed(io_width-1 DOWNTO 0);
+		PORT_B		: IN signed(io_width-1 DOWNTO 0);
 		COEFF_IN	: IN signed(io_width-1 DOWNTO 0);
 		CTRL_WORD	: IN std_logic_vector(command_len-1 DOWNTO 0);
-		DATA_OUT	: OUT signed(io_width-1 DOWNTO 0));
+		OUT_A		: OUT signed(io_width-1 DOWNTO 0);
+		OUT_B		: OUT signed(io_width-1 DOWNTO 0));
 END ENTITY;
 
 
@@ -92,6 +94,7 @@ SIGNAL add2_portB  : signed(add_width-1 DOWNTO 0);
 SIGNAL add2_out    : signed(add_width-1 DOWNTO 0);
 SIGNAL rndr_in     : signed(add_width-1 DOWNTO 0);
 SIGNAL rndr_out    : signed(io_width-1 DOWNTO 0);
+SIGNAL reord_out   : signed(io_width-1 DOWNTO 0);
 
 BEGIN
 --#############################################################################
@@ -205,11 +208,26 @@ BEGIN
 	round_unit	: rounder 	PORT MAP(rndr_in,
 					rndr_out);
 --#############################################################################
---#	Output Buffer
-	output_buffer	: reg 		GENERIC MAP(io_width) 
+--#	Reordering
+	reorder_reg	: reg		GENERIC MAP(io_width)
 					PORT MAP(CLK,
 					RST_n,
-					CTRL_WORD(OUT_BUF_LD),
+					CTRL_WORD(REORD_LD),
 					rndr_out,
-					DATA_OUT);
+					reord_out);
+--#############################################################################
+--#	Output Buffers
+	output_A_buffer	: reg 		GENERIC MAP(io_width) 
+					PORT MAP(CLK,
+					RST_n,
+					CTRL_WORD(OUT_A_BUF_LD),
+					reord_out,
+					OUT_A);
+
+	output_B_buffer	: reg 		GENERIC MAP(io_width) 
+					PORT MAP(CLK,
+					RST_n,
+					CTRL_WORD(OUT_B_BUF_LD),
+					reord_out,
+					OUT_B);
 END ARCHITECTURE;
