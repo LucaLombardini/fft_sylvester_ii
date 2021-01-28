@@ -21,8 +21,8 @@ BEGIN
 		WHEN S_M1 => DATA <= '0' & S_M3 & '1' & CW_SM1;
 		WHEN S_M3 => DATA <= '0' & S_M2 & '1' & CW_SM3;
 		WHEN S_M2 => DATA <= '0' & S_M4 & '1' & CW_SM2;
-		WHEN S_M4 => DATA <= '1' & C_M5 & '1' & CW_SM4;
-		WHEN S_M5 => DATA <= '0' & C_M6 & '1' & CW_SM5;
+		WHEN S_M4 => DATA <= '0' & S_M5 & '1' & CW_SM4;
+		WHEN S_M5 => DATA <= '1' & C_M6 & '1' & CW_SM5;
 		WHEN X_M6 => DATA <= '0' & C_S5 & '1' & CW_CM6;
 		WHEN X_S5 => DATA <= '0' & C_S6 & '1' & CW_CS5;
 		WHEN X_S6 => DATA <= '0' & C_RND_BR & '1' & CW_CS6;

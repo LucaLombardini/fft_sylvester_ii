@@ -3,8 +3,8 @@ IDLE_LD_R,'0',S_M1,'1',CW_SLD_R
 S_M1,'0',S_M3,'1',CW_SM1
 S_M3,'0',S_M2,'1',CW_SM3
 S_M2,'0',S_M4,'1',CW_SM2
-S_M4,'1',C_M5,'1',CW_SM4
-S_M5,'0',C_M6,'1',CW_SM5
+S_M4,'0',S_M5,'1',CW_SM4
+S_M5,'1',C_M6,'1',CW_SM5
 X_M6,'0',C_S5,'1',CW_CM6
 X_S5,'0',C_S6,'1',CW_CS5
 X_S6,'0',C_RND_BR,'1',CW_CS6
