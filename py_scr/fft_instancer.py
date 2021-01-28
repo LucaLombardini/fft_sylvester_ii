@@ -81,9 +81,17 @@ class vhdl_file():
 
 outputFile = vhdl_file()
 
+coef_real = [524287, 484379, 370728, 200636, 0, 847940, 677848, 564197]
+coef_imag = [0, 847940, 677848, 564197, 524288, 564197, 677848, 847940]
+
+FROM_DATA_IN = "DATA_IN(io_width*data_ports*(butt_per_level-{0})-1 DOWNTO io_width*data_ports*(butt_per_level-{0}-1))"
+FROM_COEF_IN = "COEFF_IN(io_width*(coef_ports-{0})-1 DOWNTO io_width*(coef_ports-{0}-1))"
+FROM_DATA_BUF=
+FROM_COEF_BUF= 
+
 with open(SOURCE,"r") as filein:
     for linein in filein:
-        if "SIGNAL" not in linein and copy == True:  
+        if "SIGNAL" not in linein:  
             outputFile.addHeader(linein.rstrip("\n"))
         else: # start creating new defs
             break
@@ -97,7 +105,13 @@ with open(SOURCE,"r") as filein:
             for i in range(sublimit):
                 a_index = 2 * sublimit * group + 1
                 b_index = reverse_kogge_stone(a_index, sublimit)
-                ## DO A BUTTERFLY
+                newButtName = newInstName(stage, group, "but", i) ##DO BUTTERFLY
+                startBit = "START" if stage == 0 else "doneAggr{}".format(stage-1)
+                dataIn = FROM_DATA_IN.format(i) if stage == 0 else ""
+                coefIn = .format(w_index) if stage == 0 else "w_pipe_{0}(io_width*(coef_ports-{1}) DOWNTO io_width*(coef_ports-{1}-1))"
+                doneBit = ""
+                dataOut = ""
+                newButtPort = slotMap(["CLK", "RST_n", startBit, dataIn, coefIn, doneBit, dataOut])
                 ## PUT A MUX @ OUT
                 ## PUT REGISTERS?
                 ## DO SIGNAL ASSIGNMENT

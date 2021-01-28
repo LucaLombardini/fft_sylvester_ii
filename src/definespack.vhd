@@ -53,7 +53,7 @@ PACKAGE definespack IS
 	CONSTANT n_coef		: positive	:= n_samples/2;
 	CONSTANT data_ports	: positive	:= 1;
 	CONSTANT butt_per_level	: positive	:= 8;
-	CONSTANT coef_ports	: positive	:= 1;
+	CONSTANT coef_ports	: positive	:= 8;
 	CONSTANT new_coeffs	: positive	:= n_coef/2;
 	CONSTANT out_ports	: positive	:= 1;
 END definespack;

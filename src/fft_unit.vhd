@@ -9,7 +9,7 @@ ENTITY fft_unit IS
 		RST_n	: IN std_logic;
 		START	: IN std_logic;
 		DATA_IN	: IN signed(io_width*data_ports*butt_per_level-1 DOWNTO 0);
-		COEF_IN	: IN signed(io_width*coef_ports*new_coeffs-1 DOWNTO 0);
+		COEF_IN	: IN signed(io_width*coef_ports-1 DOWNTO 0);
 		DATA_OUT: OUT signed(io_width*out_ports*butt_per_level-1 DOWNTO 0);
 		DONE	: OUT std_logic);
 END ENTITY;
