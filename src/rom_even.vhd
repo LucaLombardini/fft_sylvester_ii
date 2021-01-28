@@ -28,8 +28,8 @@ BEGIN
 		WHEN X_S6 => DATA <= '0' & S_RND_BR & '0' & CW_SS6;
 		WHEN X_RND_BR => DATA <= '0' & S_SND_R & '0' & CW_SRND_BR;
 		WHEN X_SND_R => DATA <= '0' & S_SND_I & '0' & CW_SSND_R;
-		WHEN S_SND_BI => DATA <= '0' & IDLE & '0' & CW_SSND_I;
-		WHEN C_SND_BI => DATA <= '1' & S_M6 & '0' & CW_CSND_I;
+		WHEN S_SND_I => DATA <= '0' & IDLE & '0' & CW_SSND_I;
+		WHEN C_SND_I => DATA <= '1' & S_M6 & '0' & CW_CSND_I;
 		WHEN OTHERS => DATA <= '1' & IDLE & '0' & CW_IDLE;
 	END CASE;
 END PROCESS;

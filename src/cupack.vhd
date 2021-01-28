@@ -27,12 +27,12 @@ PACKAGE cupack IS
 	CONSTANT S_S5	: std_logic_vector(base_addr-1 DOWNTO 0) := "0111";
 	CONSTANT S_S6	: std_logic_vector(base_addr-1 DOWNTO 0) := "1000";
 	CONSTANT S_RND_BR	: std_logic_vector(base_addr-1 DOWNTO 0) := "1001";
-	CONSTANT S_RND_BI	: std_logic_vector(base_addr-1 DOWNTO 0) := "1100";
+	CONSTANT S_SND_R	: std_logic_vector(base_addr-1 DOWNTO 0) := "1010";
 	CONSTANT C_M6	: std_logic_vector(base_addr-1 DOWNTO 0) := "0110";
 	CONSTANT C_S5	: std_logic_vector(base_addr-1 DOWNTO 0) := "0111";
 	CONSTANT C_S6	: std_logic_vector(base_addr-1 DOWNTO 0) := "1000";
 	CONSTANT C_RND_BR	: std_logic_vector(base_addr-1 DOWNTO 0) := "1001";
-	CONSTANT C_RND_BI	: std_logic_vector(base_addr-1 DOWNTO 0) := "1100";
+	CONSTANT C_SND_R	: std_logic_vector(base_addr-1 DOWNTO 0) := "1010";
 	CONSTANT CW_IDLE	: std_logic_vector(command_len-1 DOWNTO 0) := "000000000000000000000000000";
 	CONSTANT CW_SLD_R	: std_logic_vector(command_len-1 DOWNTO 0) := "010000110000000000000000000";
 	CONSTANT CW_SM1	: std_logic_vector(command_len-1 DOWNTO 0) := "110101110100000000000000000";
