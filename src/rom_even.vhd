@@ -17,7 +17,7 @@ BEGIN
 rom_data_access: PROCESS(ADDR)
 BEGIN
 	CASE ADDR IS
-		WHEN IDLE_LD_AR => DATA <= '1' & IDLE & '0' & CW_IDLE;
+		WHEN IDLE_LD_R => DATA <= '1' & IDLE & '0' & CW_IDLE;
 		WHEN S_M1 => DATA <= '0' & S_M3 & '0' & CW_SM1;
 		WHEN S_M3 => DATA <= '0' & S_M2 & '0' & CW_SM3;
 		WHEN S_M2 => DATA <= '0' & S_M4 & '0' & CW_SM2;
