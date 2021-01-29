@@ -21,7 +21,7 @@ FILENAME = "cu_tracker"
 
 FILEOUT = "../src/cupack.vhd"
 
-COMMAND_LEN = 27
+COMMAND_LEN = 28
 NEXT_ADDR_CC= 6
 BASE_ADDR_LEN=4
 
