@@ -58,7 +58,28 @@ ARCHITECTURE tb OF tb_butterfly IS
 	SIGNAL d_in_a, d_in_b, c_in, d_out_a, d_out_b : signed(io_width-1 DOWNTO 0);
 
 BEGIN
-	mode_dist <= '1';
+	--mode_dist <= '1';
+
+	mode_changer: PROCESS
+		VARIABLE exec_cntr : integer := 0;
+	BEGIN
+		IF mode_dist = 'U' THEN
+			mode_dist <= '0';
+			WAIT FOR 3*clk_period + rst_release;
+		ELSE
+			WAIT FOR clk_period;
+			exec_cntr := exec_cntr + 1;
+			IF exec_cntr < 4 THEN -- alternate 3 single with 3 continuos
+				mode_dist <= '0';
+				WAIT FOR 12 * clk_period;
+			ELSIF exec_cntr > 3 AND exec_cntr < 7 THEN 
+				mode_dist <= '1';
+				WAIT FOR 5 * clk_period;
+			ELSE
+				exec_cntr := 0;
+			END IF;
+		END IF;
+	END PROCESS;
 
 	clk_gen	: clkGen PORT MAP(end_sim_dist, clk_dist, rst_n_dist);
 	
