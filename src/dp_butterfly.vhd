@@ -111,8 +111,8 @@ BEGIN
 					aggr_in,
 					rfd_addr_rd,
 					bus_concat);
-	aggr_in(2*io_width-1 DOWNTO io_width) <= PORT_A;
-	aggr_in(io_width-1 DOWNTO 0) <= PORT_B;
+	aggr_in(2*io_width-1 DOWNTO io_width) <= PORT_B;
+	aggr_in(io_width-1 DOWNTO 0) <= PORT_A;
 	databus1 <= bus_concat(io_width-1 DOWNTO 0);
 	databus2 <= bus_concat(2*io_width-1 DOWNTO io_width);
 	rfd_wr_bits <= CTRL_WORD(RFD_WR2) & CTRL_WORD(RFD_WR1);
