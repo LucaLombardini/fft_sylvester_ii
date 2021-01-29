@@ -17,10 +17,12 @@ ARCHITECTURE tb OF tb_butterfly IS
 		PORT(	CLK	: IN std_logic;
 			RST_n	: IN std_logic;
 			START	: IN std_logic;
-			DATA_IN	: IN signed(io_width-1 DOWNTO 0);
+			PORT_A	: IN signed(io_width-1 DOWNTO 0);
+			PORT_B	: IN signed(io_width-1 DOWNTO 0);
 			COEFF_IN: IN signed(io_width-1 DOWNTO 0);
 			DONE	: OUT std_logic;
-			DATA_OUT: OUT signed(io_width-1 DOWNTO 0));
+			OUT_A	: OUT signed(io_width-1 DOWNTO 0);
+			OUT_B	: OUT signed(io_width-1 DOWNTO 0));
 	END COMPONENT;
 
 	COMPONENT clkGen IS
@@ -38,7 +40,8 @@ ARCHITECTURE tb OF tb_butterfly IS
 		PORT(	CLK	: IN std_logic;
 		    	RST_n	: IN std_logic;
 		    	STARTR	: IN std_logic;
-			DATA	: OUT signed(io_width-1 DOWNTO 0);
+			DATA_A	: OUT signed(io_width-1 DOWNTO 0);
+			DATA_B	: OUT signed(io_width-1 DOWNTO 0);
 			COEF	: OUT signed(io_width-1 DOWNTO 0);
 			END_SIM	: OUT std_logic);
 	END COMPONENT;
@@ -47,11 +50,12 @@ ARCHITECTURE tb OF tb_butterfly IS
 		PORT(	CLK	: IN std_logic;
 		    	RST_n	: IN std_logic;
 		    	DATA_RDY: IN std_logic;
-			DATA	: IN signed(io_width-1 DOWNTO 0));
+			DATA_A	: IN signed(io_width-1 DOWNTO 0);
+			DATA_B	: IN signed(io_width-1 DOWNTO 0));
 	END COMPONENT;
 
 	SIGNAL clk_dist, rst_n_dist, start_dist, end_sim_dist, mode_dist, done_dist	: std_logic;
-	SIGNAL d_in, c_in, d_out : signed(io_width-1 DOWNTO 0);
+	SIGNAL d_in_a, d_in_b, c_in, d_out_a, d_out_b : signed(io_width-1 DOWNTO 0);
 
 BEGIN
 	mode_dist <= '1';
@@ -60,10 +64,10 @@ BEGIN
 	
 	timed_start	: startTimer PORT MAP(mode_dist, start_dist);
 	
-	data_in_mkr	: dataMkrButt PORT MAP(clk_dist, rst_n_dist, start_dist, d_in, c_in, end_sim_dist);
+	data_in_mkr	: dataMkrButt PORT MAP(clk_dist, rst_n_dist, start_dist, d_in_a, d_in_b, c_in, end_sim_dist);
 
-	dut_butterfly	: butterfly PORT MAP(clk_dist, rst_n_dist, start_dist, d_in, c_in, done_dist, d_out);
+	dut_butterfly	: butterfly PORT MAP(clk_dist, rst_n_dist, start_dist, d_in_a, d_in_b, c_in, done_dist, d_out_a, d_out_b);
 	
-	data_out_sink	: dataSnkButt PORT MAP(clk_dist, rst_n_dist, done_dist, d_out);
+	data_out_sink	: dataSnkButt PORT MAP(clk_dist, rst_n_dist, done_dist, d_out_a, d_out_b);
 
 END ARCHITECTURE;

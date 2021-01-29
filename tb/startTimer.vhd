@@ -24,9 +24,9 @@ BEGIN
 			WAIT FOR 10 ns;
 			strobe_dist <= '0';
 			IF CONT_SING_n = '0' THEN
-				WAIT FOR 140 ns;
+				WAIT FOR 120 ns;
 			ELSE
-				WAIT FOR 60 ns;
+				WAIT FOR 50 ns;
 			END IF;
 		END IF;
 	END PROCESS;

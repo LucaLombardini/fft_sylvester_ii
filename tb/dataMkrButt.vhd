@@ -12,21 +12,24 @@ ENTITY dataMkrButt IS
 	PORT(	CLK	: IN std_logic;
 	    	RST_n	: IN std_logic;
 	    	STARTR	: IN std_logic;
-		DATA	: OUT signed(io_width-1 DOWNTO 0);
+		DATA_A	: OUT signed(io_width-1 DOWNTO 0);
+		DATA_B	: OUT signed(io_width-1 DOWNTO 0);
 		COEF	: OUT signed(io_width-1 DOWNTO 0);
 		END_SIM	: OUT std_logic);
 END ENTITY;
 
 
 ARCHITECTURE behav OF dataMkrButt IS
-	TYPE DATA_ARRAY IS ARRAY(0 TO 3) OF signed(io_width-1 DOWNTO 0);
-	TYPE COEF_ARRAY IS ARRAY(0 TO 3) OF signed(io_width-1 DOWNTO 0);
-	SIGNAL data_buf : DATA_ARRAY;
+	TYPE DATA_ARRAY IS ARRAY(0 TO 1) OF signed(io_width-1 DOWNTO 0);
+	TYPE COEF_ARRAY IS ARRAY(0 TO 1) OF signed(io_width-1 DOWNTO 0);
+	SIGNAL data_a_buf : DATA_ARRAY;
+	SIGNAL data_b_buf : DATA_ARRAY;
 	SIGNAL coef_buf : COEF_ARRAY;
 --	SIGNAL ar, ai, br, bi, wr, wi : signed(io_width-1 DOWNTO 0);
 	SIGNAL isEndFile : std_logic;
 BEGIN
-	DATA <= data_buf(0);
+	DATA_A <= data_a_buf(0);
+	DATA_B <= data_b_buf(0);
 	COEF <= coef_buf(0);
 
 	read_process: PROCESS(RST_n, CLK) -- read 6 values in block when descending clk
@@ -36,7 +39,7 @@ BEGIN
 		VARIABLE many_data	: integer := 6;
 		VARIABLE cntr		: integer;
 		VARIABLE cycle		: integer;
-		VARIABLE many_cycles	: integer := 4;
+		VARIABLE many_cycles	: integer := 2;
 	BEGIN
 		IF RST_n = '0' THEN
 			isEndFile <= '0'; --CAUSE INITIAL UNASSIGNED VALUE
@@ -48,12 +51,12 @@ BEGIN
 					readline(fp, file_line);
 					hread(file_line, value);
 					CASE cntr IS
-						WHEN 0 =>	data_buf(0) <= signed(value); --AR
-						WHEN 1 =>	data_buf(1) <= signed(value); --AI
-						WHEN 2 =>	data_buf(2) <= signed(value); --BR
-						WHEN 3 =>	data_buf(3) <= signed(value); --BI
-						WHEN 4 =>	coef_buf(2) <= signed(value); --WR
-						WHEN OTHERS =>	coef_buf(3) <= signed(value); --WI
+						WHEN 0 =>	data_a_buf(0) <= signed(value); --AR
+						WHEN 1 =>	data_a_buf(1) <= signed(value); --AI
+						WHEN 2 =>	data_b_buf(0) <= signed(value); --BR
+						WHEN 3 =>	data_b_buf(1) <= signed(value); --BI
+						WHEN 4 =>	coef_buf(0) <= signed(value); --WR
+						WHEN OTHERS =>	coef_buf(1) <= signed(value); --WI
 					END CASE;
 					--data_buf(cntr) <= signed(value);
 					cntr := cntr + 1;
@@ -64,8 +67,9 @@ BEGIN
 					isEndFile <= '1';
 				END IF;
 			ELSE -- PIPE ADVANCE
-				data_buf(0 TO 2) <= data_buf(1 TO 3);
-				coef_buf(0 TO 2) <= coef_buf(1 TO 3);
+				data_a_buf(0) <= data_a_buf(1);
+				data_b_buf(0) <= data_b_buf(1);
+				coef_buf(0) <= coef_buf(1);
 			END IF;
 		END IF;
 	END PROCESS;

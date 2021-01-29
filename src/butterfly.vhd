@@ -26,7 +26,7 @@ ARCHITECTURE struct OF butterfly IS
 			PORT_B	 : IN signed(io_width-1 DOWNTO 0);
 			COEFF_IN : IN signed(io_width-1 DOWNTO 0);
 			CTRL_WORD: IN std_logic_vector(command_len-1 DOWNTO 0);
-			OUT_A : OUT signed(io_width-1 DOWNTO 0));
+			OUT_A : OUT signed(io_width-1 DOWNTO 0);
 			OUT_B : OUT signed(io_width-1 DOWNTO 0));
 	END COMPONENT;
 

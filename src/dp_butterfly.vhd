@@ -83,6 +83,8 @@ SIGNAL add2_line: signed(add_width-1 DOWNTO 0);
 --# Temporary signals for port connection
 SIGNAL rfd_addr_wr : unsigned(rfd_wr_ports*rfd_addr_width-1 DOWNTO 0);
 SIGNAL rfd_addr_rd : unsigned(rfd_rd_ports*rfd_addr_width-1 DOWNTO 0);
+SIGNAL rfd_wr_bits : std_logic_vector(rfd_wr_ports-1 DOWNTO 0);
+SIGNAL aggr_in     : signed(rfd_wr_ports*io_width-1 DOWNTO 0);
 SIGNAL bus_concat  : signed(rfd_rd_ports*io_width-1 DOWNTO 0);
 SIGNAL mult_out	   : signed(prod_width-1 DOWNTO 0);
 SIGNAL bus2_allign : signed(add_width-1 DOWNTO 0);
@@ -104,14 +106,17 @@ BEGIN
 					rfd_wr_ports,
 					rfd_rd_ports) 
 					PORT MAP(CLK,
-					CTRL_WORD(RFD_WR DOWNTO RFD_WR),
+					rfd_wr_bits,
 					rfd_addr_wr,
-					DATA_IN,
+					aggr_in,
 					rfd_addr_rd,
 					bus_concat);
+	aggr_in(2*io_width-1 DOWNTO io_width) <= PORT_A;
+	aggr_in(io_width-1 DOWNTO 0) <= PORT_B;
 	databus1 <= bus_concat(io_width-1 DOWNTO 0);
 	databus2 <= bus_concat(2*io_width-1 DOWNTO io_width);
-	rfd_addr_wr <= CTRL_WORD(RFD_WR_ADDR1) & CTRL_WORD(RFD_WR_ADDR0);
+	rfd_wr_bits <= CTRL_WORD(RFD_WR2) & CTRL_WORD(RFD_WR1);
+	rfd_addr_wr <= CTRL_WORD(RFD_WR2_ADDR1) & CTRL_WORD(RFD_WR2_ADDR0) & CTRL_WORD(RFD_WR1_ADDR1) & CTRL_WORD(RFD_WR1_ADDR0);
 	rfd_addr_rd <= CTRL_WORD(RFD_RD2_ADDR1) & CTRL_WORD(RFD_RD2_ADDR0) & CTRL_WORD(RFD_RD1_ADDR1) & CTRL_WORD(RFD_RD1_ADDR0);
 --#############################################################################
 --#	Register File for the coefficients
@@ -228,6 +233,6 @@ BEGIN
 					PORT MAP(CLK,
 					RST_n,
 					CTRL_WORD(OUT_B_BUF_LD),
-					reord_out,
+					rndr_out,
 					OUT_B);
 END ARCHITECTURE;

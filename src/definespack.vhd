@@ -16,7 +16,7 @@ PACKAGE definespack IS
 --#	Data's Register file defines
 	CONSTANT rfd_data_width: positive	:= io_width;
 	CONSTANT rfd_addr_width: positive	:= 2;
-	CONSTANT rfd_wr_ports	: positive	:= 1;
+	CONSTANT rfd_wr_ports	: positive	:= 2;
 	CONSTANT rfd_rd_ports	: positive	:= 2;
 --#############################################################################
 --#	Multiplier defines
@@ -36,7 +36,7 @@ PACKAGE definespack IS
 	
 	CONSTANT filename1	: string	:= "../tb/notorious_sigs.hex";
 	CONSTANT input_file	: string	:= filename1;
-	CONSTANT dut_cycle_lat	: positive	:= 14;
+	CONSTANT dut_cycle_lat	: positive	:= 12;
 	CONSTANT output_file	: string	:= "results.hex";
 	CONSTANT serial_data	: integer	:= 4;
 	CONSTANT adder_const	: signed	:= to_signed(1,add_width);
