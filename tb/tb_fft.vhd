@@ -56,6 +56,26 @@ ARCHITECTURE tb OF tb_fft IS
 
 BEGIN
 
+	mode_changer: PROCESS
+		VARIABLE exec_cntr : integer := 0;
+	BEGIN
+		IF mode_dist = 'U' THEN
+			mode_dist <= '0';
+		ELSE
+			WAIT FOR clk_period;
+			exec_cntr := exec_cntr + 1;
+			IF exec_cntr < 4 THEN
+				mode_dist <= '0';
+				WAIT FOR 12 * clk_period;
+			ELSIF exec_cntr > 3 AND exec_cntr < 7 THEN
+				mode_dist <= '1';
+				WAIT FOR 5 * clk_period;
+			ELSE
+				exec_cntr := 0;
+			END IF;
+		END IF;
+	END PROCESS;
+
 	clk_gen : clkGen PORT MAP(end_sim_dist, clk_dist, rst_n_dist);
 
 	timed_start : startTimer PORT MAP(mode_dist, start_dist);
