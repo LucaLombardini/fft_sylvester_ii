@@ -1,6 +1,6 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
-USE IEEE.numeric_std.all;i
+USE IEEE.numeric_std.all;
 USE work.definespack.all;
 USE work.cupack.all;
 
@@ -29,10 +29,12 @@ ARCHITECTURE struct OF fft_unit IS
 		PORT(	CLK	: IN std_logic;
 			RST_n	: IN std_logic;
 			START	: IN std_logic;
-			DATA_IN	: IN signed(io_width-1 DOWNTO 0);
+			PORT_A	: IN signed(io_width-1 DOWNTO 0);
+			PORT_B	: IN signed(io_width-1 DOWNTO 0);
 			COEFF_IN: IN signed(io_width-1 DOWNTO 0);
 			DONE	: OUT std_logic;
-			DATA_OUT: OUT signed(io_width-1 DOWNTO 0));
+			OUT_A	: OUT signed(io_width-1 DOWNTO 0);
+			OUT_B	: OUT signed(io_width-1 DOWNTO 0));
 	END COMPONENT;
 --#############################################################################
 --#	Signal Zone
@@ -180,7 +182,7 @@ BEGIN
 	lv0_gr0_but5 : butterfly PORT MAP (CLK, RST_n, START, lv0_in5, lv0_in13, lev0_w0, lv0_gr0_done5, lv0_out5, lv0_out13);
 	lv0_gr0_but6 : butterfly PORT MAP (CLK, RST_n, START, lv0_in6, lv0_in14, lev0_w0, lv0_gr0_done6, lv0_out6, lv0_out14);
 	lv0_gr0_but7 : butterfly PORT MAP (CLK, RST_n, START, lv0_in7, lv0_in15, lev0_w0, lv0_gr0_done7, lv0_out7, lv0_out15);
-	pipe0 : pipe_machine GENERIC MAP(io_width*n_coef) PORT MAP(CLK, RST_n, START, lv0_gr0_done7, COEF_IN, w_pipe0);
+	pipe0 : pipe_machine PORT MAP(CLK, RST_n, START, doneAggr0, COEF_IN, w_pipe0);
 	lv0_in0 <= DATA_IN(io_width*16-1 DOWNTO io_width*15);
 	lv0_in8 <= DATA_IN(io_width*8-1 DOWNTO io_width*7);
 	lv0_in1 <= DATA_IN(io_width*15-1 DOWNTO io_width*14);
@@ -197,7 +199,7 @@ BEGIN
 	lv0_in14 <= DATA_IN(io_width*2-1 DOWNTO io_width*1);
 	lv0_in7 <= DATA_IN(io_width*9-1 DOWNTO io_width*8);
 	lv0_in15 <= DATA_IN(io_width*1-1 DOWNTO io_width*0);
-	lev0_w0 <= COEFF_IN(io_width*0-1 DOWNTO io_width*8);
+	lev0_w0 <= COEF_IN(io_width*8-1 DOWNTO io_width*7);
 	doneAggr0 <= lv0_gr0_done0 AND lv0_gr0_done1 AND lv0_gr0_done2 AND lv0_gr0_done3 AND lv0_gr0_done4 AND lv0_gr0_done5 AND lv0_gr0_done6 AND lv0_gr0_done7;
 --#############################################################################
 --#	2nd Layer
@@ -209,7 +211,7 @@ BEGIN
 	lv1_gr1_but1 : butterfly PORT MAP (CLK, RST_n, doneAggr0, lv0_out9, lv0_out13, lev1_w4, lv1_gr1_done1, lv1_out9, lv1_out13);
 	lv1_gr1_but2 : butterfly PORT MAP (CLK, RST_n, doneAggr0, lv0_out10, lv0_out14, lev1_w4, lv1_gr1_done2, lv1_out10, lv1_out14);
 	lv1_gr1_but3 : butterfly PORT MAP (CLK, RST_n, doneAggr0, lv0_out11, lv0_out15, lev1_w4, lv1_gr1_done3, lv1_out11, lv1_out15);
-	pipe1 : pipe_machine GENERIC MAP(io_width*n_coef) PORT MAP(CLK, RST_n, doneAggr0, lv1_gr1_done3, w_pipe0, w_pipe1);
+	pipe1 : pipe_machine PORT MAP(CLK, RST_n, doneAggr0, doneAggr1, w_pipe0, w_pipe1);
 	lev1_w0 <= w_pipe0(io_width*8-1 DOWNTO io_width*7);
 	lev1_w4 <= w_pipe0(io_width*4-1 DOWNTO io_width*3);
 	doneAggr1 <= lv1_gr0_done0 AND lv1_gr0_done1 AND lv1_gr0_done2 AND lv1_gr0_done3 AND lv1_gr1_done0 AND lv1_gr1_done1 AND lv1_gr1_done2 AND lv1_gr1_done3;
@@ -223,7 +225,7 @@ BEGIN
 	lv2_gr2_but1 : butterfly PORT MAP (CLK, RST_n, doneAggr1, lv1_out9, lv1_out11, lev2_w2, lv2_gr2_done1, lv2_out9, lv2_out11);
 	lv2_gr3_but0 : butterfly PORT MAP (CLK, RST_n, doneAggr1, lv1_out12, lv1_out14, lev2_w6, lv2_gr3_done0, lv2_out12, lv2_out14);
 	lv2_gr3_but1 : butterfly PORT MAP (CLK, RST_n, doneAggr1, lv1_out13, lv1_out15, lev2_w6, lv2_gr3_done1, lv2_out13, lv2_out15);
-	pipe2 : pipe_machine GENERIC MAP(io_width*n_coef) PORT MAP(CLK, RST_n, doneAggr1, lv2_gr3_done1, w_pipe1, w_pipe2);
+	pipe2 : pipe_machine PORT MAP(CLK, RST_n, doneAggr1, doneAggr2, w_pipe1, w_pipe2);
 	lev2_w0 <= w_pipe1(io_width*8-1 DOWNTO io_width*7);
 	lev2_w4 <= w_pipe1(io_width*4-1 DOWNTO io_width*3);
 	lev2_w2 <= w_pipe1(io_width*6-1 DOWNTO io_width*5);
@@ -250,20 +252,20 @@ BEGIN
 	DONE <= lv3_gr0_done0 AND lv3_gr1_done0 AND lv3_gr2_done0 AND lv3_gr3_done0 AND lv3_gr4_done0 AND lv3_gr5_done0 AND lv3_gr6_done0 AND lv3_gr7_done0;
 --#############################################################################
 --#	Output reorder
-	DATA_OUT(io_width*1-1 DOWNTO io_width*0) <= lev3_out0;
-	DATA_OUT(io_width*2-1 DOWNTO io_width*1) <= lev3_out8;
-	DATA_OUT(io_width*3-1 DOWNTO io_width*2) <= lev3_out4;
-	DATA_OUT(io_width*4-1 DOWNTO io_width*3) <= lev3_out12;
-	DATA_OUT(io_width*5-1 DOWNTO io_width*4) <= lev3_out2;
-	DATA_OUT(io_width*6-1 DOWNTO io_width*5) <= lev3_out10;
-	DATA_OUT(io_width*7-1 DOWNTO io_width*6) <= lev3_out6;
-	DATA_OUT(io_width*8-1 DOWNTO io_width*7) <= lev3_out14;
-	DATA_OUT(io_width*9-1 DOWNTO io_width*8) <= lev3_out1;
-	DATA_OUT(io_width*10-1 DOWNTO io_width*9) <= lev3_out9;
-	DATA_OUT(io_width*11-1 DOWNTO io_width*10) <= lev3_out5;
-	DATA_OUT(io_width*12-1 DOWNTO io_width*11) <= lev3_out13;
-	DATA_OUT(io_width*13-1 DOWNTO io_width*12) <= lev3_out3;
-	DATA_OUT(io_width*14-1 DOWNTO io_width*13) <= lev3_out11;
-	DATA_OUT(io_width*15-1 DOWNTO io_width*14) <= lev3_out7;
-	DATA_OUT(io_width*16-1 DOWNTO io_width*15) <= lev3_out15;
+	DATA_OUT(io_width*1-1 DOWNTO io_width*0) <= lv3_out0;
+	DATA_OUT(io_width*2-1 DOWNTO io_width*1) <= lv3_out8;
+	DATA_OUT(io_width*3-1 DOWNTO io_width*2) <= lv3_out4;
+	DATA_OUT(io_width*4-1 DOWNTO io_width*3) <= lv3_out12;
+	DATA_OUT(io_width*5-1 DOWNTO io_width*4) <= lv3_out2;
+	DATA_OUT(io_width*6-1 DOWNTO io_width*5) <= lv3_out10;
+	DATA_OUT(io_width*7-1 DOWNTO io_width*6) <= lv3_out6;
+	DATA_OUT(io_width*8-1 DOWNTO io_width*7) <= lv3_out14;
+	DATA_OUT(io_width*9-1 DOWNTO io_width*8) <= lv3_out1;
+	DATA_OUT(io_width*10-1 DOWNTO io_width*9) <= lv3_out9;
+	DATA_OUT(io_width*11-1 DOWNTO io_width*10) <= lv3_out5;
+	DATA_OUT(io_width*12-1 DOWNTO io_width*11) <= lv3_out13;
+	DATA_OUT(io_width*13-1 DOWNTO io_width*12) <= lv3_out3;
+	DATA_OUT(io_width*14-1 DOWNTO io_width*13) <= lv3_out11;
+	DATA_OUT(io_width*15-1 DOWNTO io_width*14) <= lv3_out7;
+	DATA_OUT(io_width*16-1 DOWNTO io_width*15) <= lv3_out15;
 END ARCHITECTURE;

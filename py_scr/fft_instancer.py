@@ -42,8 +42,8 @@ def newNumSig(name, sigtype, up_limit):
 def newButterfly(inst_name, port_map):
     return "\t{} : butterfly PORT MAP ({});".format(inst_name, port_map)
 
-def newPipe(inst_name, gen_map, port_map):
-    return "\t{} : pipe_machine GENERIC MAP({}) PORT MAP({});".format(inst_name, gen_map, port_map)
+def newPipe(inst_name, port_map):
+    return "\t{} : pipe_machine PORT MAP({});".format(inst_name, port_map)
 
 def newConnection(dest, source):
     return "\t{} <= {};".format(dest,source)
@@ -89,7 +89,7 @@ outputFile = vhdl_file()
 #coef_imag = [0, 847940, 677848, 564197, 524288, 564197, 677848, 847940]
 
 FROM_DATA_IN = "DATA_IN(io_width*{0}-1 DOWNTO io_width*{1})"
-FROM_COEF_IN = "COEFF_IN(io_width*{0}-1 DOWNTO io_width*{1})"
+FROM_COEF_IN = "COEF_IN(io_width*{0}-1 DOWNTO io_width*{1})"
 FROM_BETWEEN = "lv{}_out{}"
 DONE_BETWEEN = "lv{}_gr{}_done{}"
 DONE_AGGR = "doneAggr{}"
@@ -126,7 +126,7 @@ with open(SOURCE,"r") as filein:
                     portBIn = FROM_DATA_IN.format(_index, _index-1)
                     dataInB = "lv0_in{}".format(b_index)
                     _index = n_coef - w_index
-                    coefFrom = FROM_COEF_IN.format(stage, _index, _index-1)
+                    coefFrom = FROM_COEF_IN.format(_index, _index-1)
                     assList += [newConnection(dataInA, portAIn)]
                     assList += [newConnection(dataInB, portBIn)]
                     outputFile.addSignal(newNumSig(dataInA,"signed","io_width"))
@@ -167,9 +167,10 @@ with open(SOURCE,"r") as filein:
             pipeOut = "w_pipe{}".format(stage)
             outputFile.addSignal(newNumSig(pipeOut,"signed","io_width*n_coef"))
             newPipeName = PIPE_MACHINE.format(stage)
-            newPipeGeneric = makeMap(["io_width*n_coef"])
-            newPipePort = makeMap(["CLK", "RST_n", startBit, doneBit, pipeIn, pipeOut])
-            _pipemachine = newPipe(newPipeName,newPipeGeneric,newPipePort)
+            #newPipeGeneric = makeMap(["io_width*n_coef"])
+            newPipePort = makeMap(["CLK", "RST_n", startBit, DONE_AGGR.format(stage), pipeIn, pipeOut])
+            _pipemachine = newPipe(newPipeName,newPipePort)
+            #_pipemachine = newPipe(newPipeName,newPipeGeneric,newPipePort)
             outputFile.addInstance(_pipemachine)
         else: ## last stage has output reorder
             next_start = "DONE"
@@ -182,7 +183,7 @@ with open(SOURCE,"r") as filein:
 outputFile.addInstance(newSeparator("Output reorder"))
 a_index = 0
 for i in range(N_SAMPLES):
-    outputFile.addInstance(newConnection(TO_DATA_OUT.format(i+1,i),"lev{}_out{}".format(stage-1,a_index)))
+    outputFile.addInstance(newConnection(TO_DATA_OUT.format(i+1,i),"lv{}_out{}".format(stage-1,a_index)))
     a_index = reverse_kogge_stone(a_index, N_SAMPLES//2)
 
 ## RENAME!!!

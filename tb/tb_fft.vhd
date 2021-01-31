@@ -40,7 +40,7 @@ ARCHITECTURE tb OF tb_fft IS
 			STARTR	: IN std_logic;
 			DATA_IN	: OUT signed(io_width*n_samples-1 DOWNTO 0);
 			COEF	: OUT signed(io_width*n_coef-1 DOWNTO 0);
-			END_SIM	: OUT std_logic;);
+			END_SIM	: OUT std_logic);
 	END COMPONENT;
 
 	COMPONENT dataSnkFft IS

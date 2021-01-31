@@ -24,7 +24,7 @@ ARCHITECTURE behav OF pipe_machine IS
 			D_OUT	: OUT signed(bitwidth-1 DOWNTO 0));
 	END COMPONENT;
 
-	TYPE state_enum IS (IDLE, LD_R, LD_I, ADV_1, ADV_2, WAIT_EVENT, KLD_R,KLD_R);
+	TYPE state_enum IS (IDLE, LD_R, LD_I, ADV_1, ADV_2, WAIT_EVENT, KLD_R, KLD_I);
 	SIGNAL present_state, next_state : state_enum;
 	SIGNAL pipe0_ld, pipe1_ld, pipe2_ld, pipe3_ld : std_logic;
 	SIGNAL pipe0_out, pipe1_out, pipe2_out : signed(io_width*n_coef-1 DOWNTO 0);
