@@ -252,20 +252,20 @@ BEGIN
 	DONE <= lv3_gr0_done0 AND lv3_gr1_done0 AND lv3_gr2_done0 AND lv3_gr3_done0 AND lv3_gr4_done0 AND lv3_gr5_done0 AND lv3_gr6_done0 AND lv3_gr7_done0;
 --#############################################################################
 --#	Output reorder
-	DATA_OUT(io_width*1-1 DOWNTO io_width*0) <= lv3_out0;
-	DATA_OUT(io_width*2-1 DOWNTO io_width*1) <= lv3_out8;
-	DATA_OUT(io_width*3-1 DOWNTO io_width*2) <= lv3_out4;
-	DATA_OUT(io_width*4-1 DOWNTO io_width*3) <= lv3_out12;
-	DATA_OUT(io_width*5-1 DOWNTO io_width*4) <= lv3_out2;
-	DATA_OUT(io_width*6-1 DOWNTO io_width*5) <= lv3_out10;
-	DATA_OUT(io_width*7-1 DOWNTO io_width*6) <= lv3_out6;
-	DATA_OUT(io_width*8-1 DOWNTO io_width*7) <= lv3_out14;
-	DATA_OUT(io_width*9-1 DOWNTO io_width*8) <= lv3_out1;
-	DATA_OUT(io_width*10-1 DOWNTO io_width*9) <= lv3_out9;
-	DATA_OUT(io_width*11-1 DOWNTO io_width*10) <= lv3_out5;
-	DATA_OUT(io_width*12-1 DOWNTO io_width*11) <= lv3_out13;
-	DATA_OUT(io_width*13-1 DOWNTO io_width*12) <= lv3_out3;
-	DATA_OUT(io_width*14-1 DOWNTO io_width*13) <= lv3_out11;
-	DATA_OUT(io_width*15-1 DOWNTO io_width*14) <= lv3_out7;
-	DATA_OUT(io_width*16-1 DOWNTO io_width*15) <= lv3_out15;
+	DATA_OUT(io_width*16-1 DOWNTO io_width*15) <= lv3_out0;
+	DATA_OUT(io_width*15-1 DOWNTO io_width*14) <= lv3_out8;
+	DATA_OUT(io_width*14-1 DOWNTO io_width*13) <= lv3_out4;
+	DATA_OUT(io_width*13-1 DOWNTO io_width*12) <= lv3_out12;
+	DATA_OUT(io_width*12-1 DOWNTO io_width*11) <= lv3_out2;
+	DATA_OUT(io_width*11-1 DOWNTO io_width*10) <= lv3_out10;
+	DATA_OUT(io_width*10-1 DOWNTO io_width*9) <= lv3_out6;
+	DATA_OUT(io_width*9-1 DOWNTO io_width*8) <= lv3_out14;
+	DATA_OUT(io_width*8-1 DOWNTO io_width*7) <= lv3_out1;
+	DATA_OUT(io_width*7-1 DOWNTO io_width*6) <= lv3_out9;
+	DATA_OUT(io_width*6-1 DOWNTO io_width*5) <= lv3_out5;
+	DATA_OUT(io_width*5-1 DOWNTO io_width*4) <= lv3_out13;
+	DATA_OUT(io_width*4-1 DOWNTO io_width*3) <= lv3_out3;
+	DATA_OUT(io_width*3-1 DOWNTO io_width*2) <= lv3_out11;
+	DATA_OUT(io_width*2-1 DOWNTO io_width*1) <= lv3_out7;
+	DATA_OUT(io_width*1-1 DOWNTO io_width*0) <= lv3_out15;
 END ARCHITECTURE;

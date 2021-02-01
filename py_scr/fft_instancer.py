@@ -183,7 +183,8 @@ with open(SOURCE,"r") as filein:
 outputFile.addInstance(newSeparator("Output reorder"))
 a_index = 0
 for i in range(N_SAMPLES):
-    outputFile.addInstance(newConnection(TO_DATA_OUT.format(i+1,i),"lv{}_out{}".format(stage-1,a_index)))
+    _outPtr = N_SAMPLES - i
+    outputFile.addInstance(newConnection(TO_DATA_OUT.format(_outPtr,_outPtr-1),"lv{}_out{}".format(stage-1,a_index)))
     a_index = reverse_kogge_stone(a_index, N_SAMPLES//2)
 
 ## RENAME!!!
