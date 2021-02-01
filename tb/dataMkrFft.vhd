@@ -93,9 +93,29 @@ BEGIN
 					coef_buf(1) <= signed(imag_buf);
 				END IF;
 			ELSE
-				data_buf(0) <= data_buf(1);
 				coef_buf(0) <= coef_buf(1);
 			END IF;
 		END IF;
 	END PROCESS;
+
+simulation_ender: PROCESS(RST_n, CLK)
+		VARIABLE cnt	: integer ;
+	BEGIN
+		IF RST_n = '0' THEN
+			cnt := 0;
+			END_SIM <= '0';
+		ELSIF CLK'EVENT AND CLK = '1' THEN
+			IF isEndFile = '1' THEN
+				IF cnt = dut_cycle_lat THEN
+					END_SIM <= '1';
+				ELSE
+					cnt := cnt + 1;
+					END_SIM <= '0';
+				END IF;
+			ELSE
+				END_SIM <= '0';
+			END IF;
+		END IF;
+	END PROCESS;
+
 END ARCHITECTURE;

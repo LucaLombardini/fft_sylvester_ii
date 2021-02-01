@@ -61,6 +61,7 @@ BEGIN
 	BEGIN
 		IF mode_dist = 'U' THEN
 			mode_dist <= '0';
+			WAIT FOR 3*clk_period + rst_release;
 		ELSE
 			WAIT FOR clk_period;
 			exec_cntr := exec_cntr + 1;
