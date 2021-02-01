@@ -6,6 +6,9 @@ help:
 
 fftTest: butterfly.h butterfly.c fft.h fft.c fftTest.c
 	$(CC) -DBIT_LENGTH=$(bit_length) -DN_SAMPLES=$(n_samples) $(CFLAGS) -g butterfly.h butterfly.c fft.h fft.c fftTest.c -o fftTest
+	
+fftStageTest: butterfly.h butterfly.c fft.h fft.c fftTest.c
+	$(CC) -DBIT_LENGTH=$(bit_length) -DN_SAMPLES=$(n_samples) -D__LVL_DBG__ $(CFLAGS) -g butterfly.h butterfly.c fft.h fft.c fftTest.c -o fftStageTest
 
 butteflyTest: butterfly.h butterfly.c butterflyTest.c
 	$(CC) -DBIT_LENGTH=$(bit_length) $(CFLAGS) butterfly.c butterfly.h butterflyTest.c -o butterflyTest

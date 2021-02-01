@@ -10,3 +10,6 @@ sim/vsim.wlf
 .cu_map_odd.ods
 .~lock.*
 py_scr/in_mkr.m
+c_model/fftStageTest
+c_model/fftTest
+c_model/reverseTest

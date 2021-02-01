@@ -55,6 +55,9 @@ int _fft(unsigned int* samples_r, unsigned int* samples_i, unsigned int* out_r, 
 			}
 			w_index = _reverse_kogge_stone(w_index, N_SAMPLES/4);
 		}
+		#ifdef __LVL_DBG__
+		_level_printer(v_out_re, v_out_im, stage);
+		#endif
 		max_subgroups *= 2; // next stage has double groups than now
 		v_in_re = tmp_re;
 		v_in_im = tmp_im;
@@ -84,6 +87,19 @@ unsigned int _reverse_kogge_stone(unsigned int a, unsigned int b) {
 		propagate &= (propagate >> k);
 	}
 	return (a ^ b ^ (generate >> 1));
+}
+
+void _level_printer(unsigned int * sre, unsigned int * sim, unsigned int stage) {
+	int k;
+	printf("# %u\n", stage);
+	for (k = 0; k < N_SAMPLES; k++) {
+		printf("%.5X", *(sre + k));
+	}
+	printf("\n");
+	for (k = 0; k < N_SAMPLES; k++) {
+		printf("%.5X", *(sim + k));
+	}
+	printf("\n");	
 }
 
 #endif
