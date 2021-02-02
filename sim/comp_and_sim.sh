@@ -33,6 +33,7 @@ if [[ "$#" > 1 ]] && [[ -e "$2" ]]; then
 		vsim -do "simulate_$postfix.do" || exit -1
 	elif [[ "$1" == "-nogui" ]]; then
 		vsim -c -do "simulate_$postfix.do" || exit -1
+		echo -e "\e[1m\nDONE!\n\e[0m"
 	elif [[ "$1" == "-nosim" ]]; then
 		echo -e "\e[1m\nNO SIMULATION WILL START!\n\e[0m"
 		exit 0

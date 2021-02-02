@@ -24,7 +24,7 @@ BEGIN
 			WAIT FOR 10 ns;
 			strobe_dist <= '0';
 			IF CONT_SING_n = '0' THEN
-				WAIT FOR 120 ns;
+				WAIT FOR 130 ns;
 			ELSE
 				WAIT FOR 50 ns;
 			END IF;
