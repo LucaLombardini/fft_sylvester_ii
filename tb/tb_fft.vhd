@@ -56,6 +56,15 @@ ARCHITECTURE tb OF tb_fft IS
 
 BEGIN
 
+	simulation_ender: PROCESS
+        BEGIN
+                WAIT UNTIL end_sim_dist = '1';
+		WAIT FOR 4*dut_cycle_lat*clk_period;
+                ASSERT FALSE
+                        REPORT "SIMULATION SUCCESSFULLY ENDED!"
+                        SEVERITY FAILURE;
+        END PROCESS;
+
 	mode_changer: PROCESS
 		VARIABLE exec_cntr : integer := 0;
 	BEGIN
@@ -77,7 +86,7 @@ BEGIN
 		END IF;
 	END PROCESS;
 
-	clk_gen : clkGen PORT MAP(end_sim_dist, clk_dist, rst_n_dist);
+	clk_gen : clkGen PORT MAP('0', clk_dist, rst_n_dist);
 
 	timed_start : startTimer PORT MAP(mode_dist, start_dist);
 
