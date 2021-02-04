@@ -86,3 +86,39 @@ with open("../sim/fft_in_vectors.hex", "w") as filein, open("../sim/fft_out_refe
                 fileref.write("\n")
                 
 
+with open("../sim/fft_in_subset.hex", "w") as filein, open("../sim/fft_out_subset_ref.hex","w") as fileref:
+    for f in funcs:
+        for b in (0, 8):
+            # exp decr. max ampl.
+            to_print = [round(_) for _ in f(full_scale, samples, 1, b)]
+            for num in numpy.real(to_print):
+                buf = offscale + num if num < 0 else num
+                filein.write(format(buf,"05X"))
+            filein.write("\n")
+            for num in numpy.imag(to_print):
+                buf = offscale + num if num < 0 else num
+                filein.write(format(buf,"05X"))
+            filein.write("\n")
+            # do an fft just to have imag part as input
+            to_print = numpy.rint(numpy.divide(numpy.fft.fft(to_print),16))
+            for num in numpy.real(to_print):
+                buf = offscale + num if num < 0 else num
+                filein.write(format(round(buf),"05X"))
+                fileref.write(format(round(buf),"05X"))
+            filein.write("\n")
+            fileref.write("\n")
+            for num in numpy.imag(to_print):
+                buf = offscale + num if num < 0 else num
+                filein.write(format(round(buf),"05X"))
+                fileref.write(format(round(buf),"05X"))
+            filein.write("\n")
+            fileref.write("\n")
+            to_print = numpy.rint(numpy.divide(numpy.fft.fft(to_print),16))
+            for num in numpy.real(to_print):
+                buf = offscale + num if num < 0 else num
+                fileref.write(format(round(buf),"05X"))
+            fileref.write("\n")
+            for num in numpy.imag(to_print):
+                buf = offscale + num if num < 0 else num
+                fileref.write(format(round(buf),"05X"))
+            fileref.write("\n")

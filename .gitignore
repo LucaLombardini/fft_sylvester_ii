@@ -14,3 +14,5 @@ c_model/fftStageTest
 c_model/fftTest
 c_model/reverseTest
 __simStdOut.txt
+*.swp
+py_scr/*.png
