@@ -1,3 +1,8 @@
+-- Author:       Luca Lombardini
+-- Academic_y:   2020/2021
+-- Purpose:      (Master Degree) Digital Integrated Systems' Final Project
+-- Contacts:     s277972@studenti.polito.it
+--               lombamari2@gmail.com
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 USE IEEE.numeric_std.all;
@@ -29,7 +34,7 @@ ARCHITECTURE behav OF pipe_machine IS
 
 BEGIN
 
-pipeline: FOR i IN 0 TO 10 GENERATE --11 registri
+pipeline: FOR i IN 0 TO 10 GENERATE --11 regs, too much problems encountered with behavioral FSM
 	pipeReg_i: reg GENERIC MAP(io_width*n_coef) PORT MAP(CLK, RST_n, '1', pipe(i), pipe(i+1));
 END GENERATE;
 

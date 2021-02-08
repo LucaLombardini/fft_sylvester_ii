@@ -1,5 +1,11 @@
 #! /env/python
 
+# Author:       Luca Lombardini
+# Academic_y:   2020/2021
+# Purpose:      (Master Degree) Digital Integrated Systems' Final Project
+# Contacts:     s277972@studenti.polito.it
+#               lombamari2@gmail.com
+
 #import math
 import numpy
 
@@ -12,7 +18,6 @@ offscale = 2**20
 def first_ord_lpf(fs, in_vect, k, b):
     unistep = [True if _ >= b else False for _ in in_vect]
     tmp = numpy.multiply(numpy.exp(numpy.subtract(b, in_vect)),unistep)
-    #tmp = [math.exp(-( val - b )) * u for val, u in zip(in_vect,unistep)]
     scale = fs / max(tmp)
     return numpy.multiply((fs*k), tmp)
 
@@ -30,7 +35,6 @@ def cosine(fs, in_vect, k, b): # cosine with time shift and dummy phase
     w = (2 * numpy.pi / 16)*3
     arg = numpy.subtract(numpy.multiply(w,numpy.subtract(in_vect,b)),(0.05*b))
     return numpy.multiply((fs*k),numpy.cos(arg))
-    #return [(fs * k) * math.cos(w * ( _ - b) - 0.05 * b) for _ in in_vect]
 
 def door(fs, in_vect, k, b):
     window = [ True if _ >= (b-(b/2)) and _ < (b+(b/2)) else False for _ in in_vect]

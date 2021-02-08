@@ -1,5 +1,11 @@
 #! /bin/bash
 
+# Author:       Luca Lombardini
+# Academic_y:   2020/2021
+# Purpose:      (Master Degree) Digital Integrated Systems' Final Project
+# Contacts:     s277972@studenti.polito.it
+#               lombamari2@gmail.com
+
 trap '(( "$?" == 0 )) || echo -e "\e[31m[ ERROR ]: Error occurred!\e[0m"' EXIT
 
 if [[ "$#" = 1 ]]; then

@@ -15,4 +15,7 @@ c_model/fftTest
 c_model/reverseTest
 __simStdOut.txt
 *.swp
-py_scr/*.png
+py_scr/__keep_graph
+py_scr/butterfly.py
+py_scr/butterflyTest.py
+c_model/reverseTest.c

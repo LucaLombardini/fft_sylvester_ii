@@ -1,3 +1,8 @@
+-- Author:       Luca Lombardini
+-- Academic_y:   2020/2021
+-- Purpose:      (Master Degree) Digital Integrated Systems' Final Project
+-- Contacts:     s277972@studenti.polito.it
+--               lombamari2@gmail.com
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 USE IEEE.numeric_std.all;
@@ -25,7 +30,6 @@ ARCHITECTURE behav OF dataMkrButt IS
 	SIGNAL data_a_buf : DATA_ARRAY;
 	SIGNAL data_b_buf : DATA_ARRAY;
 	SIGNAL coef_buf : COEF_ARRAY;
---	SIGNAL ar, ai, br, bi, wr, wi : signed(io_width-1 DOWNTO 0);
 	SIGNAL isEndFile : std_logic;
 BEGIN
 	DATA_A <= data_a_buf(0);
@@ -58,7 +62,6 @@ BEGIN
 						WHEN 4 =>	coef_buf(0) <= signed(value); --WR
 						WHEN OTHERS =>	coef_buf(1) <= signed(value); --WI
 					END CASE;
-					--data_buf(cntr) <= signed(value);
 					cntr := cntr + 1;
 				END LOOP;
 				IF NOT(endfile(fp)) THEN

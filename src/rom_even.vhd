@@ -1,3 +1,8 @@
+-- Author:       Luca Lombardini
+-- Academic_y:   2020/2021
+-- Purpose:      (Master Degree) Digital Integrated Systems' Final Project
+-- Contacts:     s277972@studenti.polito.it
+--               lombamari2@gmail.com
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 USE IEEE.numeric_std.all;

@@ -1,3 +1,8 @@
+-- Author:       Luca Lombardini
+-- Academic_y:   2020/2021
+-- Purpose:      (Master Degree) Digital Integrated Systems' Final Project
+-- Contacts:     s277972@studenti.polito.it
+--               lombamari2@gmail.com
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 USE IEEE.numeric_std.all;
@@ -33,13 +38,11 @@ BEGIN
 	write_define:PROCESS(CLK)
 	BEGIN
 		IF CLK'EVENT AND CLK = '1' THEN
-			--IF WR = '1' THEN
 			FOR j IN 0 TO wr_ports-1 LOOP
 				IF WR(j) = '1' THEN
 					register_block(to_integer(WR_ADDR((j+1)*addr_width-1 DOWNTO j*addr_width))) <= WR_DATA((j+1)*data_width-1 DOWNTO j*data_width);
 				END IF;
 			END LOOP;
-			--END IF;
 		END IF;
 	END PROCESS;
 END ARCHITECTURE;

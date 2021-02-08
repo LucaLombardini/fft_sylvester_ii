@@ -1,3 +1,8 @@
+-- Author:       Luca Lombardini
+-- Academic_y:   2020/2021
+-- Purpose:      (Master Degree) Digital Integrated Systems' Final Project
+-- Contacts:     s277972@studenti.polito.it
+--               lombamari2@gmail.com
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 USE IEEE.numeric_std.all;
@@ -13,19 +18,15 @@ END ENTITY;
 
 
 ARCHITECTURE behav OF adder IS
---	SIGNAL internal_reg	: signed(add_width-1 DOWNTO 0);
 BEGIN
 	adder_define: PROCESS(CLK)
 	BEGIN
 		IF CLK'EVENT AND CLK = '1' THEN
 			IF S_A_n = '0' THEN
 				SUM <= A + B;
---				internal_reg <= A + B;
 			ELSE
 				SUM <= A - B;
---				internal_reg <= A - B;
 			END IF;
 		END IF;
 	END PROCESS;
---	SUM <= internal_reg;
 END ARCHITECTURE;
