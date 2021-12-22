@@ -19,3 +19,5 @@
 #               digital input, using the Cooley-Tuckey algorithm. Then document 
 #               the obtained performance.
 ################################################################################
+#       LICENSE: GPL-2.0
+################################################################################
